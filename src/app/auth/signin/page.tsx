@@ -1,5 +1,15 @@
+import signCSS from "../sign.module.css";
+
 export default function SignInPage(){
     return(
-        <h1>Sign In page</h1>
+        <>
+            <div className={ signCSS.button }>Sign in</div>
+
+            {/* Sign in with google */}
+            <div className={ signCSS.google }>Sign in with Google</div>
+
+            {/* Don't have an account */}
+            <div className={ signCSS.noaccount }>Don't have an account? <span className={ signCSS.signup }>Sign up</span></div>
+        </>
     )
 }
