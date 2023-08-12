@@ -41,6 +41,6 @@
 }
 
 /* Hover and actions */
-.signup:hover, .forgot{
+.signup:hover, .forgot:hover, .google:hover{
     cursor: pointer;
 }
