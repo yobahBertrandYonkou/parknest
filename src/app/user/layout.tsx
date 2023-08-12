@@ -71,7 +71,7 @@ export default function DashboardLayout({
 
                     {/* Content box */}
                     <div className={ userCSS.content }>
-
+                        { children }
                     </div>
                 </div>
             </div>
