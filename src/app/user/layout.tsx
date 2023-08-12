@@ -10,7 +10,8 @@ export default function DashboardLayout({
     return(
         <>
             <div className={ userCSS.mainContainer }>
-                {/* Side bar */}
+                <div className={ userCSS.sidebarContainer}>
+                    {/* Side bar */}
                 <div className={ userCSS.sideBar }>
                     {/* Logo, title and nav bar collapse */}
                     <div className={ userCSS.sideBarTop }>
@@ -58,6 +59,7 @@ export default function DashboardLayout({
                             <div className={ userCSS.optionText }>Profile</div>
                         </div>
                      </div>
+                </div>
                 </div>
 
                 {/* Right section */}

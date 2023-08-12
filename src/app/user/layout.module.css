@@ -3,7 +3,6 @@
 .mainContainer{
     background-color: var(--bg-color);
     display: flex;
-    position: fixed;
     width: 100%;
     height: 100%;
 }
@@ -14,13 +13,16 @@
     display: flex;
     flex-direction: column;
     color: var(--secondary-color);
+    height: 100%;
+    top: 0;
+    position: fixed;
 }
 
 .sideBarTop{
     display: flex;
     justify-content: space-between;
     width: 100%;
-    height: 60px;
+    height: 100px;
     align-items: center;
     padding: 20px;
     width: 260px;
@@ -30,13 +32,15 @@
 
 .collapse{
     background-color: white;
-    padding: 8px;
+    padding: 0px 8px 0px 8px;
     border-radius: 0.1em;
     font-size: 24px;
 }
 
 .collapse:hover{
     cursor: pointer;
+    color: var(--primary-color);
+    background-color: var(--primary-dashboard-color);
 }
 
 .divider{
@@ -114,6 +118,7 @@
     display: flex;
     flex-direction: column;
     width: 100%;
+    padding-left: 260px;
 }
 
 /* Top nav */
@@ -125,9 +130,12 @@
     align-items: center;
     color: var(--primary-dashboard-color);
     padding-left: 30px;
+    top: 0;
+    position: sticky;
+    border-bottom: 1px solid #f5f5f8;
 }
 
 /* content  */
 .content{
-    padding: 30px;
+    padding: 25px 10px 10px 10px;
 }
