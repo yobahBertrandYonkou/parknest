@@ -50,8 +50,12 @@
 }
 
 .photoCarouselContainer{
-    height: 500px;
     background-color: #f5f5f8;
+}
+
+.images{
+    object-fit: cover;
+    height: 500px;
 }
 
 .descriptionTitle{
