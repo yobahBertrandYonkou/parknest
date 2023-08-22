@@ -3,15 +3,23 @@
 import plotDetailsCSS from "./plot-details.module.css";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
+import { useState } from "react";
+import Checkout from "./checkout/checkout";
 
 export default function PlotDetails() {
+  // Controls the visibility of the checkout page
+  let [showCheckout, setShowCheckout] = useState(false);
+
   return (
     <>
       <div className={ plotDetailsCSS.mainContainer }>
+        {/* Checkout popup */}
+         { showCheckout && <Checkout changeVisibility={setShowCheckout} /> }
+
         {/* First row */}
       <div className={plotDetailsCSS.firstRow}>
         <div>Plot Details</div>
-        <div className={plotDetailsCSS.bookBtn}>Book now</div>
+        <div className={plotDetailsCSS.bookBtn} onClick={ () => setShowCheckout(true) }>Book now</div>
       </div>
 
       {/* Plot details */}
@@ -34,12 +42,12 @@ export default function PlotDetails() {
           </div>
         </Carousel>
         </div>
-
         {/* Plot description */}
         <div className={ plotDetailsCSS.description}>
         <div className={ plotDetailsCSS.descriptionTitle }>Plot description</div>
         <div className={ plotDetailsCSS.descriptionText }>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</div>
         </div>
+
       </div>
       </div>
     </>
