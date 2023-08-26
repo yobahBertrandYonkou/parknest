@@ -49,6 +49,7 @@ export default function AuthLayout({
                 id="rememberMe"
                 className={authCSS.rememberCheckBox}
                 type="checkbox"
+                onChange={(status) => {store.updateRememberMe(status.target.checked)}}
               />
               <label className={authCSS.rememberLabel} htmlFor="rememberMe">
                 &nbsp;Remember me
