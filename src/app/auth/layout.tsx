@@ -42,7 +42,7 @@ export default function AuthLayout({
                 type="checkbox"
               />
               <label className={authCSS.rememberLabel} htmlFor="rememberMe">
-                Remember me
+                &nbsp;Remember me
               </label>
             </div>
 
