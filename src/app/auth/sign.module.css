@@ -38,6 +38,7 @@
 
 .signup{
     color: var(--secondary-color);
+    text-decoration: none !important;
 }
 
 /* Hover and actions */

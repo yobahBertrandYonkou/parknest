@@ -9,7 +9,7 @@ export default function SignInPage(){
             <div className={ signCSS.google }>Sign in with Google</div>
 
             {/* Don't have an account */}
-            <div className={ signCSS.noaccount }>Don't have an account? <span className={ signCSS.signup }>Sign up</span></div>
+            <div className={ signCSS.noaccount }>Don't have an account? <a href="/auth/signup" className={ signCSS.signup }>Sign up</a></div>
         </>
     )
 }

@@ -24,6 +24,7 @@
     "react-photo-album": "^2.3.0",
     "react-responsive-carousel": "^3.2.23",
     "react-simple-timefield": "^3.3.1",
-    "typescript": "5.1.6"
+    "typescript": "5.1.6",
+    "zustand": "^4.4.1"
   }
 }

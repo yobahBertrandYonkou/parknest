@@ -1,18 +1,27 @@
+'use client';
+
+import { useEffect } from "react";
 import authCSS from "./layout.module.css";
+import { useParknestStore } from "@/stores/mainStore";
+
 
 export default function AuthLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+
+  // Park nest store
+  const store = useParknestStore();
+
   return (
     <div>
       <div className={authCSS.container}>
         <div className={authCSS.card}>
           {/* Plot owner and car owner */}
           <div className={authCSS.user}>
-            <div className={authCSS.plot}>Plot Owner</div>
-            <div className={authCSS.car}>Car Owner</div>
+            <div className={`${authCSS.plot} ${ store.userType == 'po' ? authCSS.selectedUser : ''}`}>Plot Owner</div>
+            <div className={`${authCSS.car} ${ store.userType == 'oc' ? authCSS.selectedUser : ''}`}>Car Owner</div>
           </div>
 
           {/* Input row starts */}

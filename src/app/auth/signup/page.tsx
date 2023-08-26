@@ -6,10 +6,10 @@ export default function SignUpPage(){
             <div className={ signCSS.button }>Sign up</div>
 
             {/* Sign in with google */}
-            <div className={ signCSS.google }>Sign in with Google</div>
+            <div className={ signCSS.google }>Sign up with Google</div>
 
             {/* Don't have an account */}
-            <div className={ signCSS.noaccount }>Already have an account? <span className={ signCSS.signup }>Sign in</span></div>
+            <div className={ signCSS.noaccount }>Already have an account? <a href="/auth/signin" className={ signCSS.signup }>Sign in</a></div>
         </>
     )
 }

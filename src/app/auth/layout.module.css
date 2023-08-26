@@ -41,6 +41,10 @@
 
 
 .plot{
+    background-color: white;
+}
+
+.selectedUser{
     background-color: var(--primary-color);
 }
 
