@@ -20,8 +20,8 @@ export default function AuthLayout({
         <div className={authCSS.card}>
           {/* Plot owner and car owner */}
           <div className={authCSS.user}>
-            <div className={`${authCSS.plot} ${ store.userType == 'po' ? authCSS.selectedUser : ''}`}>Plot Owner</div>
-            <div className={`${authCSS.car} ${ store.userType == 'oc' ? authCSS.selectedUser : ''}`}>Car Owner</div>
+            <div className={`${authCSS.plot} ${ store.userType == 'po' ? authCSS.selectedUser : ''}`} onClick={() => store.updateUserType('po')}>Plot Owner</div>
+            <div className={`${authCSS.car} ${ store.userType == 'co' ? authCSS.selectedUser : ''}`} onClick={() => store.updateUserType('co')}>Car Owner</div>
           </div>
 
           {/* Input row starts */}
