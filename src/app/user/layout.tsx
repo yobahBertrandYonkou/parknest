@@ -1,8 +1,9 @@
-'use client';
+"use client";
 
 import { useParknestStore } from "@/stores/mainStore";
 import userCSS from "./layout.module.css";
 import { useEffect, useState } from "react";
+import SkeletonLoader from "tiny-skeleton-loader-react";
 
 export default function DashboardLayout({
   children,
@@ -11,29 +12,138 @@ export default function DashboardLayout({
 }) {
   // Park nest store
   const store = useParknestStore();
-  
+
   // reading from local storage
-  const [localStore, setLocalStore] = useState({ userType: '', currentPage: '' });
+  const [localStore, setLocalStore] = useState({
+    userType: "",
+    currentPage: "",
+  });
+
+  //   Loader
+  const [isLoading, setIsLoading] = useState(true);
 
   // Holds current page name
-  const [currentPage, setCurrentPage] = useState('');
+  const [currentPage, setCurrentPage] = useState("");
 
   useEffect(() => {
-
     // Fetching data from local store
-    setLocalStore(JSON.parse(window.localStorage.getItem('useParknestStore') ?? ""));
+    setLocalStore(
+      JSON.parse(window.localStorage.getItem("useParknestStore") ?? "")
+    );
 
     // setting current page
-    var temp = window.location.pathname.split('/').slice(-1)[0];
-    setCurrentPage(temp.toString().includes('plot') ? 'plots' : temp);
+    var temp = window.location.pathname.split("/").slice(-1)[0];
+    setCurrentPage(temp.toString().includes("plot") ? "plots" : temp);
     console.log(currentPage);
-    
+
+    // Hide is loading
+    setIsLoading(false);
   }, []);
 
-  
+  function showMenuOptions(): import("react").ReactNode {
+    return (
+      <>
+        {/* Menu option */}
+        {localStore.userType == "po" && (
+          <div
+            className={
+              currentPage == "dashboard"
+                ? userCSS.optionBoxActive
+                : userCSS.optionBoxInactive
+            }
+            onClick={() => {
+              // redirect
+              if (currentPage != "dashboard") {
+                window.location.assign("/user/po/dashboard");
+              }
+            }}
+          >
+            <div className={userCSS.optionIcon}>
+              <i className="fa-solid fa-gauge"></i>
+            </div>
+            <div className={userCSS.optionText}>Dashboard</div>
+          </div>
+        )}
+
+        {/* Menu option */}
+        {(localStore.userType == "po" || localStore.userType == "co") && (
+          <div
+            className={
+              currentPage == "plots"
+                ? userCSS.optionBoxActive
+                : userCSS.optionBoxInactive
+            }
+            onClick={() => {
+              // redirecting
+              if (currentPage != "plots") {
+                if (localStore.userType == "po") {
+                  window.location.assign("/user/po/plots");
+                } else {
+                  window.location.assign("/user/co/plots");
+                }
+              }
+            }}
+          >
+            <div className={userCSS.optionIcon}>
+              <i className="fa-solid fa-car"></i>
+            </div>
+            <div className={userCSS.optionText}>Plots</div>
+          </div>
+        )}
+
+        {/* Menu option */}
+        {localStore.userType == "po" && (
+          <div
+            className={
+              currentPage == "bookings"
+                ? userCSS.optionBoxActive
+                : userCSS.optionBoxInactive
+            }
+            onClick={() => {
+              // redirect
+              if (currentPage != "booking") {
+                window.location.assign("/user/po/bookings");
+              }
+            }}
+          >
+            <div className={userCSS.optionIcon}>
+              <i className="fa-solid fa-list"></i>
+            </div>
+            <div className={userCSS.optionText}>Bookings</div>
+          </div>
+        )}
+
+        {/* Menu option */}
+        {(localStore.userType == "po" || localStore.userType == "co") && (
+          <div
+            className={
+              currentPage == "profile"
+                ? userCSS.optionBoxActive
+                : userCSS.optionBoxInactive
+            }
+            onClick={() => {
+              // redirecting
+              if (currentPage != "profile") {
+                if (localStore.userType == "po") {
+                  window.location.assign("/user/po/profile");
+                } else {
+                  window.location.assign("/user/co/profile");
+                }
+              }
+            }}
+          >
+            <div className={userCSS.optionIcon}>
+              <i className="fa-solid fa-user"></i>
+            </div>
+            <div className={userCSS.optionText}>Profile</div>
+          </div>
+        )}
+      </>
+    );
+  }
 
   return (
-    < >
+    <>
       <div className={userCSS.mainContainer} suppressHydrationWarning>
         <div className={userCSS.sidebarContainer}>
           {/* Side bar */}
@@ -60,47 +170,18 @@ export default function DashboardLayout({
 
             {/* Menu options */}
             <div className={userCSS.options}>
-              {/* Menu option */}
-              {localStore.userType == "po" && (
-                <div className={currentPage == 'dashboard' ? userCSS.optionBoxActive : userCSS.optionBoxInactive} onClick={() => {
-                    setCurrentPage('dashboard');
-                }}>
-                  <div className={userCSS.optionIcon}>
-                    <i className="fa-solid fa-gauge"></i>
-                  </div>
-                  <div className={userCSS.optionText}>Dashbaord</div>
-                </div>
-              )}
+              {/* Skeleton loaders */}
+              {isLoading &&
+                [1, 2, 3, 4].map((num) => {
+                  return (
+                    <div key={num}>
+                      <SkeletonLoader height={50} background={"#ECDDFF"} />
+                      <div style={{ height: "10px" }}></div>
+                    </div>
+                  );
+                })}
 
-              {/* Menu option */}
-              <div className={currentPage == 'plots' ? userCSS.optionBoxActive : userCSS.optionBoxInactive}onClick={() => {
-                    setCurrentPage('plots');
-                }}>
-                <div className={userCSS.optionIcon}>
-                <i className="fa-solid fa-car"></i>
-                </div>
-                <div className={userCSS.optionText}>Plots</div>
-              </div>
-
-              {/* Menu option */}
-              {localStore.userType == "po" && (<div className={currentPage == 'booking' ? userCSS.optionBoxActive : userCSS.optionBoxInactive}onClick={() => {
-                    setCurrentPage('booking');
-                }}>
-                <div className={userCSS.optionIcon}>
-                    <i className="fa-solid fa-list"></i>
-                </div>
-                <div className={userCSS.optionText}>Bookings</div>
-              </div>)}
-
-              {/* Menu option */}
-              <div className={currentPage == 'profile' ? userCSS.optionBoxActive : userCSS.optionBoxInactive}onClick={() => {
-                    setCurrentPage('profile');
-                }}>
-                <div className={userCSS.optionIcon}>
-                    <i className="fa-solid fa-user"></i>
-                </div>
-                <div className={userCSS.optionText}>Profile</div>
-              </div>
+              {!isLoading && showMenuOptions()}
             </div>
           </div>
         </div>
