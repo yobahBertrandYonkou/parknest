@@ -1,6 +1,27 @@
+'use client';
+
+import { useEffect, useState } from "react";
 import profileCSS from "./profile.module.css";
+import { useParknestStore } from "@/stores/mainStore";
 
 export default function POProfilePage() {
+  // Park nest store
+  const store = useParknestStore();
+
+  // reading from local storage
+  const [localStore, setLocalStore] = useState({
+    userType: "",
+    currentPage: "",
+  });
+
+
+
+  useEffect(() => {
+    // Fetching data from local store
+    setLocalStore(
+      JSON.parse(window.localStorage.getItem("useParknestStore") ?? "")
+    );
+  }, []);
   return (
     <>
       <div className="container-fluid">
@@ -38,7 +59,7 @@ export default function POProfilePage() {
             <div style={{ height: "20px" }}></div>
 
             {/* Account details for PO */}
-            <div className={profileCSS.profileInformation}>
+            {localStore.userType == 'po' && <div className={profileCSS.profileInformation}>
               <div className={profileCSS.profileInfoTitle}>
                 Account Information
               </div>
@@ -54,7 +75,7 @@ export default function POProfilePage() {
               {/* Field info */}
               <div className={profileCSS.infoFieldTitle}>Account name</div>
               <div className={profileCSS.infoFieldValue}>John Doe</div>
-            </div>
+            </div>}
           </div>
 
           {/* Profile information form */}

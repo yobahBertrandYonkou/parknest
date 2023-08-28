@@ -1,5 +1,7 @@
+import POProfilePage from "../../po/profile/page";
+
 export default function COProfilePage(){
     return(
-        <h1>Car Owner Profile Page</h1>
+        <POProfilePage />
     )
 }
