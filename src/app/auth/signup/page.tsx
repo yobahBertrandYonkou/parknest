@@ -19,15 +19,19 @@ export default function SignUpPage() {
         className={signCSS.button}
         onClick={() => {
           // updating auth method
-          store.updateMethod("email");          
+          store.updateMethod('email');
 
           // redirecting
-          if (store.userType == "po") {
-            var path: string = "/user/po/dashboard";
-          } else {
-            var path: string = "/user/co/plots";
+          if (store.userType == 'po'){
+              var path:string = '/user/po/dashboard';
+              store.updateCurrentPage('po-dashboard');
+          }else{
+              var path:string = '/user/co/plots';
+              store.updateCurrentPage('co-plots');
           }
 
+          // saving state to localStorage
+          localStorage.setItem('useParknestStore', JSON.stringify(store))
           window.location.assign(path);
         }}
       >

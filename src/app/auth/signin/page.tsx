@@ -22,8 +22,10 @@ export default function SignInPage(){
                 // redirecting
                 if (store.userType == 'po'){
                     var path:string = '/user/po/dashboard';
+                    store.updateCurrentPage('po-dashboard');
                 }else{
                     var path:string = '/user/co/plots';
+                    store.updateCurrentPage('co-plots');
                 }
 
                 // saving state to localStorage

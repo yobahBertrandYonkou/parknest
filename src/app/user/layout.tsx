@@ -2,6 +2,7 @@
 
 import { useParknestStore } from "@/stores/mainStore";
 import userCSS from "./layout.module.css";
+import { useEffect, useState } from "react";
 
 export default function DashboardLayout({
   children,
@@ -12,7 +13,13 @@ export default function DashboardLayout({
   const store = useParknestStore();
   
   // reading from local storage
-  var localStore = JSON.parse(localStorage.getItem('useParknestStore') ?? "");
+  const [localStore, setLocalStore] = useState({ userType: 'po' });
+
+  useEffect(() => {
+
+    // Fetching data from local store
+    setLocalStore(JSON.parse(window.localStorage.getItem('useParknestStore') ?? ""));
+  }, []);
 
   
 
