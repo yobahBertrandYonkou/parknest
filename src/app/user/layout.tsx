@@ -25,6 +25,9 @@ export default function DashboardLayout({
   // Holds current page name
   const [currentPage, setCurrentPage] = useState("");
 
+//   Page name
+const [pageName, setPageName] = useState('');
+
   useEffect(() => {
     // Fetching data from local store
     setLocalStore(
@@ -34,6 +37,7 @@ export default function DashboardLayout({
     // setting current page
     var temp = window.location.pathname.split("/").slice(-1)[0];
     setCurrentPage(temp.toString().includes("plot") ? "plots" : temp);
+    setPageName(temp);
     console.log(currentPage);
 
     // Hide is loading
@@ -190,7 +194,8 @@ export default function DashboardLayout({
         <div className={userCSS.contentSection}>
           {/* Top nav */}
           <div className={userCSS.topNav}>
-            <div className={userCSS.navTitle}>Dashboard</div>
+            {!isLoading && <div className={userCSS.navTitle}>{(pageName[0].toUpperCase() + pageName.slice(1)).replace("-", " ")}</div>}
+           {isLoading && <SkeletonLoader width={100} />}
           </div>
 
           {/* Content box */}
