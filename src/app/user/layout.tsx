@@ -226,8 +226,8 @@ const [isLoggedIn, setIsLoggedIn] = useState(true);
           </div>
 
           {/* Login required */}
-           <NotLoggedInPopup />
-           
+          {!isLoggedIn && <NotLoggedInPopup />}
+
           {/* Content box */}
           <div className={userCSS.content}>{children}</div>
         </div>
