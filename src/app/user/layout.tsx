@@ -4,6 +4,7 @@ import { useParknestStore } from "@/stores/mainStore";
 import userCSS from "./layout.module.css";
 import { useEffect, useState } from "react";
 import SkeletonLoader from "tiny-skeleton-loader-react";
+import NotLoggedInPopup from "./not-logged-in";
 
 export default function DashboardLayout({
   children,
@@ -28,25 +29,41 @@ export default function DashboardLayout({
 //   Page name
 const [pageName, setPageName] = useState('');
 
+// login in required
+const [isLoggedIn, setIsLoggedIn] = useState(true);
+
+
   useEffect(() => {
     // Fetching data from local store
-    setLocalStore(
-      JSON.parse(window.localStorage.getItem("useParknestStore") ?? "")
-    );
+    var storeData = window.localStorage.getItem("useParknestStore");
+    console.log(storeData === null);
+    
 
-    // setting current page
-    var temp = window.location.pathname.split("/").slice(-1)[0];
-    setCurrentPage(temp.toString().includes("plot") ? "plots" : temp);
-    setPageName(temp);
-    console.log(currentPage);
+    if (storeData === null){
+      // Tell user to log in first 
+      setIsLoggedIn(false);
 
-    // Hide is loading
-    setIsLoading(false);
+    }else{
+      setLocalStore(
+        JSON.parse(storeData)
+      );
+  
+      // setting current page
+      var temp = window.location.pathname.split("/").slice(-1)[0];
+      setCurrentPage(temp.toString().includes("plot") ? "plots" : temp);
+      setPageName(temp);
+      console.log(currentPage);
+  
+      // Hide is loading
+      setIsLoading(false);
+    }
+    
   }, []);
 
   function showMenuOptions(): import("react").ReactNode {
     return (
       <>
+
         {/* Menu option */}
         {localStore.userType == "po" && (
           <div
@@ -195,9 +212,22 @@ const [pageName, setPageName] = useState('');
           {/* Top nav */}
           <div className={userCSS.topNav}>
             {!isLoading && <div className={userCSS.navTitle}>{(pageName[0].toUpperCase() + pageName.slice(1)).replace("-", " ")}</div>}
-           {isLoading && <SkeletonLoader width={100} />}
+           {isLoading && <div><SkeletonLoader width={100} /></div>}
+
+           {/* Sign out */}
+           <div className={userCSS.signout} onClick={() => {
+            // deleting useParnestStore from localhost
+            window.localStorage.removeItem('useParknestStore');
+
+            // redirecting user to login page
+            window.location.replace('/auth/signin');
+
+           }}><i className="fa-solid fa-right-from-bracket"></i></div>
           </div>
 
+          {/* Login required */}
+           <NotLoggedInPopup />
+           
           {/* Content box */}
           <div className={userCSS.content}>{children}</div>
         </div>
