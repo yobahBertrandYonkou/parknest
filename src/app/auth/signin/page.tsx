@@ -26,6 +26,8 @@ export default function SignInPage(){
                     var path:string = '/user/co/plots';
                 }
 
+                // saving state to localStorage
+                localStorage.setItem('useParknestStore', JSON.stringify(store))
                 window.location.assign(path);
             }}>Sign in</div>
 

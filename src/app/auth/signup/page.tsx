@@ -19,7 +19,7 @@ export default function SignUpPage() {
         className={signCSS.button}
         onClick={() => {
           // updating auth method
-          store.updateMethod("email");
+          store.updateMethod("email");          
 
           // redirecting
           if (store.userType == "po") {
