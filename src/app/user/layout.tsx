@@ -13,12 +13,21 @@ export default function DashboardLayout({
   const store = useParknestStore();
   
   // reading from local storage
-  const [localStore, setLocalStore] = useState({ userType: 'po' });
+  const [localStore, setLocalStore] = useState({ userType: '', currentPage: '' });
+
+  // Holds current page name
+  const [currentPage, setCurrentPage] = useState('');
 
   useEffect(() => {
 
     // Fetching data from local store
     setLocalStore(JSON.parse(window.localStorage.getItem('useParknestStore') ?? ""));
+
+    // setting current page
+    var temp = window.location.pathname.split('/').slice(-1)[0];
+    setCurrentPage(temp.toString().includes('plot') ? 'plots' : temp);
+    console.log(currentPage);
+    
   }, []);
 
   
@@ -53,27 +62,43 @@ export default function DashboardLayout({
             <div className={userCSS.options}>
               {/* Menu option */}
               {localStore.userType == "po" && (
-                <div className={userCSS.optionBoxActive}>
-                  <div className={userCSS.optionIcon}></div>
+                <div className={currentPage == 'dashboard' ? userCSS.optionBoxActive : userCSS.optionBoxInactive} onClick={() => {
+                    setCurrentPage('dashboard');
+                }}>
+                  <div className={userCSS.optionIcon}>
+                    <i className="fa-solid fa-gauge"></i>
+                  </div>
                   <div className={userCSS.optionText}>Dashbaord</div>
                 </div>
               )}
 
               {/* Menu option */}
-              <div className={userCSS.optionBoxInactive}>
-                <div className={userCSS.optionIconInactive}></div>
+              <div className={currentPage == 'plots' ? userCSS.optionBoxActive : userCSS.optionBoxInactive}onClick={() => {
+                    setCurrentPage('plots');
+                }}>
+                <div className={userCSS.optionIcon}>
+                <i className="fa-solid fa-car"></i>
+                </div>
                 <div className={userCSS.optionText}>Plots</div>
               </div>
 
               {/* Menu option */}
-              {localStore.userType == "po" && (<div className={userCSS.optionBoxInactive}>
-                <div className={userCSS.optionIconInactive}></div>
+              {localStore.userType == "po" && (<div className={currentPage == 'booking' ? userCSS.optionBoxActive : userCSS.optionBoxInactive}onClick={() => {
+                    setCurrentPage('booking');
+                }}>
+                <div className={userCSS.optionIcon}>
+                    <i className="fa-solid fa-list"></i>
+                </div>
                 <div className={userCSS.optionText}>Bookings</div>
               </div>)}
 
               {/* Menu option */}
-              <div className={userCSS.optionBoxInactive}>
-                <div className={userCSS.optionIconInactive}></div>
+              <div className={currentPage == 'profile' ? userCSS.optionBoxActive : userCSS.optionBoxInactive}onClick={() => {
+                    setCurrentPage('profile');
+                }}>
+                <div className={userCSS.optionIcon}>
+                    <i className="fa-solid fa-user"></i>
+                </div>
                 <div className={userCSS.optionText}>Profile</div>
               </div>
             </div>
