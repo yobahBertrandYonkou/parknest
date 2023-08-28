@@ -20,6 +20,13 @@ export default function SignInPage(){
                 store.updateMethod('email');
 
                 // redirecting
+                if (store.userType == 'po'){
+                    var path:string = '/user/po/dashboard';
+                }else{
+                    var path:string = '/user/co/plots';
+                }
+
+                window.location.assign(path);
             }}>Sign in</div>
 
             {/* Sign in with google */}
