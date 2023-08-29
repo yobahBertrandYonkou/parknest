@@ -77,3 +77,25 @@
     margin-right: 20px;
     opacity: 0.8;
 }
+
+.trustedPartners{
+    background-color: var(--secondary-color);
+    color: white;
+    text-align: center;
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
+.tpTitle{
+    font-size: 24px;
+}
+
+.tpCards{
+    margin-top: 20px;
+}
+
+.tpPhotos{
+    width: 200px;
+    height: 100px;
+    object-fit: cover;
+}
