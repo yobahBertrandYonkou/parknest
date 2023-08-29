@@ -16,6 +16,10 @@ export default function AuthLayout({
 
   return (
     <div>
+      {/* Back to home */}
+      <a href="/" className={authCSS.backToHome}>
+      <i className="fa-solid fa-arrow-left"></i> Back to home
+      </a>
       <div className={authCSS.container}>
         <div className={authCSS.card}>
           {/* Plot owner and car owner */}

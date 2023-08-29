@@ -78,3 +78,16 @@
     align-items: center;
     color: var(--secondary-color);
 }
+
+.backToHome{
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 10;
+    text-decoration: none;
+    color: var(--secondary-color);
+}
+
+.backToHome:hover{
+    cursor: pointer;
+}
