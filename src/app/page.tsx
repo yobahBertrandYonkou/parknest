@@ -1,3 +1,5 @@
+'use client';
+
 import homeCSS from './home.module.css';
 
 export default function HomePage(){
@@ -18,7 +20,9 @@ export default function HomePage(){
                     {/* Navigation options */}
                     <div className={homeCSS.navOptions}>
                         <div className={`${homeCSS.home} ${homeCSS.navOption}`}>Home</div>
-                        <div className={`${homeCSS.login} ${homeCSS.navOption}`}>Login</div>
+                        <div className={`${homeCSS.login} ${homeCSS.navOption}`} onClick={() => {
+                            window.location.assign('/auth/signin');
+                        }}>Login</div>
                         <div className={`${homeCSS.help} ${homeCSS.navOption}`}>Help</div>
                         <div className={`${homeCSS.aboutus} ${homeCSS.navOption}`}>About us</div>
                     </div>
@@ -34,7 +38,9 @@ export default function HomePage(){
                             </div>
 
                             {/* Get started btn */}
-                            <div className={homeCSS.getStartedBtn}>Get started</div>
+                            <div className={homeCSS.getStartedBtn}onClick={() => {
+                            window.location.assign('/auth/signup');
+                        }}>Get started</div>
                         </div>
                         <div className="col-lg-6">
                             <img className={homeCSS.pageImage} src="/images/bg.png" alt="bg" />
