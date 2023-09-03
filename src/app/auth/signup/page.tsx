@@ -49,7 +49,8 @@ export default function SignUpPage() {
               body: JSON.stringify({
                 email: email,
                 password: password,
-                userType: store.userType
+                userType: store.userType,
+                method: 'signup'
               }),
             })
               .then((response) => response.json())
