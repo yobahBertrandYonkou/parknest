@@ -6,7 +6,7 @@ interface State {
     operation: string,
     rememberMe: boolean,
     method: string,
-    updateUserType: (userType: string) => void
+    updateUserType: (userType: string) => void,
     updateOperation: (operation: string) => void,
     updateRememberMe: (rememberMe: boolean) => void,
     updateMethod: (method: string) => void,

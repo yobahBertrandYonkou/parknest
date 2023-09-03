@@ -60,7 +60,7 @@
     border: 1px solid #E2E6ED;
     border-radius: 0.4em;
     width: 300px;
-    color: #E2E6ED;
+    color: var(--secondary-color);
     margin-bottom: 15px;
 }
 

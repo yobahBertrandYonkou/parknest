@@ -33,17 +33,17 @@ export default function AuthLayout({
             <div className={authCSS.label}>Email</div>
             <input
               className={authCSS.input}
+              id="email"
               type="email"
-              placeholder="Enter your email"
-            />
+              placeholder="Enter your email"/>
           </div>
           <div>
             <div className={authCSS.label}>Password</div>
             <input
               className={authCSS.input}
               type="password"
-              placeholder="Password"
-            />
+              id="password"
+              placeholder="Password"/>
           </div>
 
           {/* Remeber me and forgot password row */}
