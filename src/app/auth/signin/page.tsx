@@ -71,7 +71,7 @@ export default function SignInPage() {
                   // saving state to localStorage
                   localStorage.setItem(
                     "useParknestStore",
-                    JSON.stringify(store)
+                    JSON.stringify({...store, userId: response.insertedId})
                   );
                   window.location.assign(path);
                 }

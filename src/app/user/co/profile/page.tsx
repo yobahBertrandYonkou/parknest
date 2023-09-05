@@ -1,7 +1,10 @@
-import POProfilePage from "../../po/profile/page";
+'use client';
 
-export default function COProfilePage(){
-    return(
-        <POProfilePage />
-    )
+import POPlotsPage from "../../po/plots/page";
+
+export default function COProfilePage() {
+  
+  return (
+    <POPlotsPage /> 
+  );
 }

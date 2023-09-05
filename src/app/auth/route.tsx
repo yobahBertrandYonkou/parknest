@@ -38,7 +38,15 @@ export async function POST(request: Request) {
         // Save password in database
         let response = await mongoClient
           .collection("users")
-          .insertOne({ ...body, password: hash });
+          .insertOne({
+            ...body,
+            password: hash,
+            firstName: null,
+            lastName: null,
+            phone: null,
+            paymentDetails: null,
+            identity: null
+          });
         return NextResponse.json({ ...response, status: "success" });
       }
     } else {
@@ -50,12 +58,15 @@ export async function POST(request: Request) {
         });
       } else {
         // Hashing password before saving
-        let passwordCheckStatus = bcrypt.compareSync(body.password, status.password);
+        let passwordCheckStatus = bcrypt.compareSync(
+          body.password,
+          status.password
+        );
 
-        if (passwordCheckStatus){
-          delete status['password'];
-          return NextResponse.json({...status, status: "success" });
-        }else{
+        if (passwordCheckStatus) {
+          delete status["password"];
+          return NextResponse.json({ ...status, status: "success" });
+        } else {
           return NextResponse.json({
             status: "failed",
             message: `Invalid email or password.`,

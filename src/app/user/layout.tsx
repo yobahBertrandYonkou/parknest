@@ -44,9 +44,26 @@ const [isLoggedIn, setIsLoggedIn] = useState(true);
       setIsLoggedIn(false);
 
     }else{
-      setLocalStore(
-        JSON.parse(storeData)
-      );
+      let data = JSON.parse(storeData);
+      setLocalStore(data);
+
+      // fetching user data and validating user profile
+      console.log(data.userId);
+      (async () => {
+        await fetch("/api/user", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ userId: data.userId }),
+        })
+          .then((response) => response.json())
+          .then((response) => {
+            console.log(response);
+            
+          })
+          .catch((error) => console.log(error));
+      })();
   
       // setting current page
       var temp = window.location.pathname.split("/").slice(-1)[0];

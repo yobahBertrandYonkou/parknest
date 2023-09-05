@@ -55,6 +55,7 @@ export default function SignUpPage() {
             })
               .then((response) => response.json())
               .then((response) => {
+                
                 if (response.status === "failed") {
                   setError(response.message);
                 } else {
@@ -65,13 +66,13 @@ export default function SignUpPage() {
                   if (store.userType == "po") {
                     var path: string = "/user/po/dashboard";
                   } else {
-                    var path: string = "/user/co/plots";
+                    var path: string = "/user/co/plots?id";
                   }
 
                   // saving state to localStorage
                   localStorage.setItem(
                     "useParknestStore",
-                    JSON.stringify(store)
+                    JSON.stringify({...store, userId: response.insertedId})
                   );
                   window.location.assign(path);
                 }
