@@ -1,4 +1,4 @@
-import mongoClient from "../../../database/mongodb";
+import mongoClient from "../../database/mongodb";
 import { NextResponse } from "next/server";
 import { ObjectId } from "mongodb";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
@@ -7,6 +7,8 @@ import { storage } from "@/app/database/firebase";
 export async function POST(request: Request){
     // retrieving data from body
     // let body = (await request.json()) ?? {};
+    
+
     let formData = await request.formData();
     console.log(formData);
 
@@ -41,11 +43,9 @@ export async function POST(request: Request){
         description: formData.get('description'),
         capacity: formData.get('capacity'),
         photos: photoUrls,
-        user_id: '',
+        user_id: formData.get('userId'),
     });
 
     return NextResponse.json(status);
-
-    
     
 }

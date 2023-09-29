@@ -56,6 +56,7 @@ export default function COPlotsPage() {
 
         // Adding photo ids to form data
         formData.append('photoIds', photoIds.toString());
+        formData.append('userId', JSON.parse(localStorage.getItem('useParknestStore') ?? '')['userId']);
 
         // let data = {
         //   plot_name: formData.get('name'),
@@ -68,7 +69,7 @@ export default function COPlotsPage() {
         // }
 
         // Saving data
-        fetch("/user/po/plots", {
+        fetch("/api/plots", {
           method: "POST",
           // headers: { 'Content-Type': 'multipart/form-data' },
           body: formData,
