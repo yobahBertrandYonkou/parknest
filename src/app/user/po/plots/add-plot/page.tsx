@@ -1,9 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 import addPlotCSS from "./add-plot.module.css";
+import React from "react";
 import "mapbox-gl/dist/mapbox-gl.css";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
-import { SetStateAction, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Photo, PhotoAlbum } from "react-photo-album";
 
 mapboxgl.accessToken =
@@ -28,25 +29,57 @@ export default function COPlotsPage() {
     });
 
     // listing to form submitting
-    document.getElementById('add-plot-form')?.addEventListener('submit', (event) => {
-      event.preventDefault();
-      
-      // getting data from form
-      let formData = new FormData(event.target as HTMLFormElement);
-      let data = {
-        plot_name: formData.get('name'),
-        price: formData.get('price'),
-        plot_location: formData.get('location'),
-        description: formData.get('description'),
-        photos: photos
-      }
-    
-      
-    })
-  });
+    // document.getElementById('add-plot-form')?.addEventListener('submit', (event) => {
+
+    // })
+  }, []);
 
   return (
-    <form id="add-plot-form">
+    <form
+      id="add-plot-form"
+      onSubmit={(event) => {
+        event.preventDefault();
+
+        // getting data from form
+        let formData = new FormData(event.target as HTMLFormElement);
+        let photoIds: Array<string> = [];
+
+        console.log({ ...photos });
+
+        // Adding files to formData
+        Object.keys(photos).forEach((photo) => {
+          console.log(photos[photo as keyof Object]['file' as keyof Object]);
+          let file = photos[photo as keyof Object]['file' as keyof Object] as File;
+          formData.append("files", file);
+          photoIds.push(photo + "." + file.name.split('.').slice(-1));
+        });
+
+        // Adding photo ids to form data
+        formData.append('photoIds', photoIds.toString());
+
+        // let data = {
+        //   plot_name: formData.get('name'),
+        //   price: formData.get('price'),
+        //   plot_location: formData.get('location'),
+        //   description: formData.get('description'),
+        //   capacity: formData.get('capacity'),
+        //   photos: photos,
+        //   user_id: ''
+        // }
+
+        // Saving data
+        fetch("/user/po/plots", {
+          method: "POST",
+          // headers: { 'Content-Type': 'multipart/form-data' },
+          body: formData,
+        })
+          .then((response) => response.json())
+          .then((response) => {
+            console.log(response);
+          })
+          .catch((error) => console.log(error));
+      }}
+    >
       {/* Top bar */}
       <div className="container-fluid">
         <div className="row">
@@ -57,7 +90,7 @@ export default function COPlotsPage() {
       </div>
 
       {/* Space */}
-      <div style={{height: '20px'}}></div>
+      <div style={{ height: "20px" }}></div>
 
       {/* Map and plot detail row */}
       <div className="container-fluid">
@@ -71,23 +104,44 @@ export default function COPlotsPage() {
             <div className="row">
               {/* Form field */}
               <div className="col-8">
-                <label htmlFor="plot-name" className={`${addPlotCSS.labels} form-label small`}>
+                <label
+                  htmlFor="plot-name"
+                  className={`${addPlotCSS.labels} form-label small`}
+                >
                   Plot name
                 </label>
-                <input required type="text" id="plot-name" className="form-control" name="name" />
+                <input
+                  required
+                  type="text"
+                  id="plot-name"
+                  className="form-control"
+                  name="name"
+                />
               </div>
 
               {/* Form field */}
               <div className="col-4">
-                <label htmlFor="plot-price" className={`${addPlotCSS.labels} form-label small`}>
+                <label
+                  htmlFor="plot-price"
+                  className={`${addPlotCSS.labels} form-label small`}
+                >
                   Price per hour
                 </label>
-                <input required type="number" id="plot-price" className="form-control" name="price" />
+                <input
+                  required
+                  type="number"
+                  id="plot-price"
+                  className="form-control"
+                  name="price"
+                />
               </div>
 
               {/* Form field */}
-              <div className="col-12">
-                <label htmlFor="plot-location" className={`${addPlotCSS.labels} form-label small`}>
+              <div className="col-8">
+                <label
+                  htmlFor="plot-location"
+                  className={`${addPlotCSS.labels} form-label small`}
+                >
                   Plot location
                 </label>
                 <input
@@ -95,15 +149,35 @@ export default function COPlotsPage() {
                   id="plot-location"
                   className="form-control"
                   name="location"
+                  required
+                />
+              </div>
+              <div className="col-4">
+                <label
+                  htmlFor="plot-capacity"
+                  className={`${addPlotCSS.labels} form-label small`}
+                >
+                  Plot capacity
+                </label>
+                <input
+                  type="number"
+                  id="plot-capacity"
+                  className="form-control"
+                  name="capacity"
+                  required
                 />
               </div>
 
               {/* Form field */}
               <div className="col-12">
-                <label htmlFor="plot-description" className={`${addPlotCSS.labels} form-label small`}>
+                <label
+                  htmlFor="plot-description"
+                  className={`${addPlotCSS.labels} form-label small`}
+                >
                   Plot description
                 </label>
-                <textarea required 
+                <textarea
+                  required
                   id="plot-description"
                   className="form-control"
                   name="description"
@@ -123,49 +197,63 @@ export default function COPlotsPage() {
         </div>
       </div>
 
-      <div style={{height: '20px'}}></div>
+      <div style={{ height: "20px" }}></div>
 
       {/* Photos */}
       <div className="container-fluid">
         <div className={`${addPlotCSS.contentContainer} row`}>
           {/* Photo title bar */}
           <div className={`${addPlotCSS.photoTitleBar} col-12`}>
-            <div className={addPlotCSS.photoTitle}>Photos</div>
-            <div className={addPlotCSS.photoAddBtn} onClick={() => {
-              let photo = document.getElementById('plot-photo') as HTMLInputElement;
+            <div className={addPlotCSS.photoTitle}>
+              Photos ({Object.keys(photos).length})
+            </div>
+            <div
+              className={addPlotCSS.photoAddBtn}
+              onClick={() => {
+                let photo = document.getElementById(
+                  "plot-photo"
+                ) as HTMLInputElement;
 
-              // Opening select window
-              photo?.click();
+                // Opening select window
+                photo?.click();
 
-              // Add selected photos to photo list
-              photo?.addEventListener('change', (event) => {
+                // Add selected photos to photo list
+                photo?.addEventListener("change", (event) => {
+                  if (photo.files) {
+                    // creating file reader object
+                    let reader = new FileReader();
 
-                if (photo.files){
-                  // creating file reader object
-                  let reader = new FileReader();
-  
-                  // handling file upload by reader
-                  reader.onload = (event) => {
-                    let temp = {}
-                    let key = new Date().getTime();
-                    temp[key] = { src: event.target?.result, width: 800, height: 600, 'key': key };
+                    // handling file upload by reader
+                    reader.onload = (event) => {
+                      let temp = {};
+                      let key = new Date().getTime();
+                      temp[key] = {
+                        src: event.target?.result,
+                        width: 800,
+                        height: 600,
+                        key: key,
+                        file: photo.files != null ? photo.files[0] : null,
+                      };
 
-                    setPhotos({
-                      ...(photos || []),
-                      ...temp
-                  });
+                      setPhotos({
+                        ...(photos || []),
+                        ...temp,
+                      });
+                    };
+
+                    // Reading file as data url
+                    reader.readAsDataURL(photo.files[0]);
                   }
-
-                  // Reading file as data url
-                  reader.readAsDataURL(photo.files[0]);
-                }
-
-              });
-
-
-            }}>
+                });
+              }}
+            >
               <i className="fa-solid fa-file-circle-plus"></i>
-              <input style={{ display: 'none' }} type="file" id="plot-photo" accept="image/*" />
+              <input
+                style={{ display: "none" }}
+                type="file"
+                id="plot-photo"
+                accept="image/*"
+              />
             </div>
           </div>
 
@@ -174,39 +262,60 @@ export default function COPlotsPage() {
             <div className="row">
               <PhotoAlbum
                 photos={
-                  Object.keys(photos as Object).map((key) => { return photos[key as keyof Object]}) as unknown as Photo[] }
+                  Object.keys(photos as Object).map((key) => {
+                    return photos[key as keyof Object];
+                  }) as unknown as Photo[]
+                }
                 layout="columns"
-                renderPhoto={({ photo, wrapperStyle, renderDefaultPhoto}) => (
-                  <div className={addPlotCSS.photoCard} style={{ position: 'relative', ...wrapperStyle }}>
-                    {renderDefaultPhoto({wrapped: false})}
+                renderPhoto={({ photo, wrapperStyle, renderDefaultPhoto }) => (
+                  <div
+                    className={addPlotCSS.photoCard}
+                    style={{ position: "relative", ...wrapperStyle }}
+                  >
+                    {renderDefaultPhoto({ wrapped: false })}
 
                     {/* Photo actions */}
                     <div className={addPlotCSS.photoAction}>
-                      <div className={`${addPlotCSS.photoActionBtn} ${addPlotCSS.view}`} onClick={() => {
-                        // open photo in new window
-                        setShowCurrentImage(true);
-                        }}>
+                      <div
+                        className={`${addPlotCSS.photoActionBtn} ${addPlotCSS.view}`}
+                        onClick={() => {
+                          // open photo in new window
+                          setShowCurrentImage(true);
+                        }}
+                      >
                         <i className="fa-solid fa-eye"></i>
                       </div>
-                      <div style={{width: '30px'}}></div>
-                      <div className={`${addPlotCSS.photoActionBtn} ${addPlotCSS.delete}`} onClick={() => {
-                        // temporarily storing photo
-                        let temp = photos;          
-                        
-                        // deleting photo
-                        delete temp[photo.key as keyof Object];
+                      <div style={{ width: "30px" }}></div>
+                      <div
+                        className={`${addPlotCSS.photoActionBtn} ${addPlotCSS.delete}`}
+                        onClick={() => {
+                          // temporarily storing photo
+                          let temp = photos;
 
-                        // updating photos
-                        setPhotos({...temp});
-                      }}>
+                          // deleting photo
+                          delete temp[photo.key as keyof Object];
+
+                          // updating photos
+                          setPhotos({ ...temp });
+                        }}
+                      >
                         <i className="fa-solid fa-trash"></i>
                       </div>
                     </div>
 
                     {/* Image viewer */}
-                    {showCurrentImage && <div className={addPlotCSS.imageModal} onClick={() => setShowCurrentImage(false)}>
-                      <img className={addPlotCSS.imageModalImage} src={photo.src} alt={photo.key} />
-                    </div>}
+                    {showCurrentImage && (
+                      <div
+                        className={addPlotCSS.imageModal}
+                        onClick={() => setShowCurrentImage(false)}
+                      >
+                        <img
+                          className={addPlotCSS.imageModalImage}
+                          src={photo.src}
+                          alt={photo.key}
+                        />
+                      </div>
+                    )}
                   </div>
                 )}
               />
@@ -214,10 +323,9 @@ export default function COPlotsPage() {
           </div>
         </div>
         <div className={`${addPlotCSS.saveBtnContainer} col-12`}>
-          <input type="submit" className={addPlotCSS.save} value={'Save'}/>
+          <input type="submit" className={addPlotCSS.save} value={"Save"} />
         </div>
       </div>
-
     </form>
   );
 }
