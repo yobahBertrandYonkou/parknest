@@ -51,7 +51,7 @@ export async function POST(request: Request) {
       }
     } else {
       if (status === null) {
-        // User already exist
+        // User does not exist
         return NextResponse.json({
           status: "failed",
           message: `User not found. Please sign up.`,
@@ -65,6 +65,8 @@ export async function POST(request: Request) {
 
         if (passwordCheckStatus) {
           delete status["password"];
+          console.log(status);
+          
           return NextResponse.json({ ...status, status: "success" });
         } else {
           return NextResponse.json({
