@@ -1,10 +1,33 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import plotCSS from "./plots.module.css";
+import { FindCursor, WithId } from "mongodb";
 
 export default function POPlotsPage() {
   // Variables for controlling delete warning pop up
   const [showDeleteWarning, setShowDeleteWarning] = useState(false);
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    fetch(
+      ("/api/plots?userId=" +
+        JSON.parse(localStorage.getItem("useParknestStore") as string)[
+          "userId"
+        ]) as string,
+      {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      }
+    )
+      .then((response) => response.json())
+      .then(async (response) => {
+        console.log(response);
+        // setting data
+        setData(response.dataList);
+        
+      })
+      .catch((error) => console.log(error));
+  }, []);
 
   return (
     <>
@@ -23,7 +46,7 @@ export default function POPlotsPage() {
               placeholder="Search"
             />
           </div>
-          <a style={{ textDecoration: 'none' }} href="plots/add-plot">
+          <a style={{ textDecoration: "none" }} href="plots/add-plot">
             <div className={plotCSS.addPlotBtn}>
               <i className="fa-solid fa-plus"></i> New plot
             </div>
@@ -51,7 +74,10 @@ export default function POPlotsPage() {
                     <div className={plotCSS.edit}>
                       <i className="fa-solid fa-pen-to-square"></i>
                     </div>
-                    <div className={plotCSS.delete} onClick={() => setShowDeleteWarning(true)}>
+                    <div
+                      className={plotCSS.delete}
+                      onClick={() => setShowDeleteWarning(true)}
+                    >
                       <i className="fa-solid fa-trash"></i>
                     </div>
                   </div>
@@ -76,7 +102,10 @@ export default function POPlotsPage() {
                     <div className={plotCSS.edit}>
                       <i className="fa-solid fa-pen-to-square"></i>
                     </div>
-                    <div className={plotCSS.delete} onClick={() => setShowDeleteWarning(true)}>
+                    <div
+                      className={plotCSS.delete}
+                      onClick={() => setShowDeleteWarning(true)}
+                    >
                       <i className="fa-solid fa-trash"></i>
                     </div>
                   </div>
@@ -101,7 +130,10 @@ export default function POPlotsPage() {
                     <div className={plotCSS.edit}>
                       <i className="fa-solid fa-pen-to-square"></i>
                     </div>
-                    <div className={plotCSS.delete} onClick={() => setShowDeleteWarning(true)}>
+                    <div
+                      className={plotCSS.delete}
+                      onClick={() => setShowDeleteWarning(true)}
+                    >
                       <i className="fa-solid fa-trash"></i>
                     </div>
                   </div>
@@ -125,7 +157,10 @@ export default function POPlotsPage() {
                     <div className={plotCSS.edit}>
                       <i className="fa-solid fa-pen-to-square"></i>
                     </div>
-                    <div className={plotCSS.delete} onClick={() => setShowDeleteWarning(true)}>
+                    <div
+                      className={plotCSS.delete}
+                      onClick={() => setShowDeleteWarning(true)}
+                    >
                       <i className="fa-solid fa-trash"></i>
                     </div>
                   </div>
@@ -149,7 +184,10 @@ export default function POPlotsPage() {
                     <div className={plotCSS.edit}>
                       <i className="fa-solid fa-pen-to-square"></i>
                     </div>
-                    <div className={plotCSS.delete} onClick={() => setShowDeleteWarning(true)}>
+                    <div
+                      className={plotCSS.delete}
+                      onClick={() => setShowDeleteWarning(true)}
+                    >
                       <i className="fa-solid fa-trash"></i>
                     </div>
                   </div>
@@ -174,7 +212,10 @@ export default function POPlotsPage() {
                     <div className={plotCSS.edit}>
                       <i className="fa-solid fa-pen-to-square"></i>
                     </div>
-                    <div className={plotCSS.delete} onClick={() => setShowDeleteWarning(true)}>
+                    <div
+                      className={plotCSS.delete}
+                      onClick={() => setShowDeleteWarning(true)}
+                    >
                       <i className="fa-solid fa-trash"></i>
                     </div>
                   </div>
@@ -206,7 +247,10 @@ export default function POPlotsPage() {
                 </div>
                 {/* Action buttons */}
                 <div className={plotCSS.action}>
-                  <div className={plotCSS.cancel} onClick={() => setShowDeleteWarning(false)}>
+                  <div
+                    className={plotCSS.cancel}
+                    onClick={() => setShowDeleteWarning(false)}
+                  >
                     Cancel
                   </div>
                   <div className={plotCSS.deleteBtn}>Delete</div>
