@@ -6,6 +6,7 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 import { useEffect, useRef, useState } from "react";
 import { Photo, PhotoAlbum } from "react-photo-album";
+import { SearchBox } from "@mapbox/search-js-react";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiZGV2ZWxvcGVyLWJtYmNvcnAiLCJhIjoiY2xscnRkMjg4MHZ3czNkdGhvZWZ2Z3FmdyJ9.08SvDDYJ4oInBba-ClOtAQ";
@@ -13,10 +14,13 @@ mapboxgl.accessToken =
 export default function COPlotsPage() {
   const mapContainer = useRef(null);
   const map = useRef(null);
-  const [latitude, setLatitude] = useState(77.4661303);
-  const [longitude, setLongitude] = useState(12.9539456);
-  const [zoom, setZoom] = useState(11);
+  const [latitude, setLatitude] = useState(0);
+  const [longitude, setLongitude] = useState(0);
+  const [zoom, setZoom] = useState(-1);
+  const [successMessage, setSuccessMessage] = useState(false);
+  const [locationObj, setLocationObj] = useState<Object|null>(null);
   const [photos, setPhotos] = useState<Object>({});
+  const [mapObj, setMap] = useState<mapboxgl.Map | null>();
   const [showCurrentImage, setShowCurrentImage] = useState<boolean>(false);
 
   useEffect(() => {
@@ -26,8 +30,11 @@ export default function COPlotsPage() {
       style: "mapbox://styles/mapbox/streets-v12",
       center: [latitude, longitude],
       zoom: zoom,
+      focus: false
     });
 
+
+    setMap(map.current as mapboxgl.Map);
     // listing to form submitting
     // document.getElementById('add-plot-form')?.addEventListener('submit', (event) => {
 
@@ -38,6 +45,11 @@ export default function COPlotsPage() {
     <form
       id="add-plot-form"
       onSubmit={(event) => {
+        if (locationObj === null){
+          event.preventDefault();
+          alert('Location required');
+          return;
+        }
         event.preventDefault();
 
         // getting data from form
@@ -48,25 +60,21 @@ export default function COPlotsPage() {
 
         // Adding files to formData
         Object.keys(photos).forEach((photo) => {
-          console.log(photos[photo as keyof Object]['file' as keyof Object]);
-          let file = photos[photo as keyof Object]['file' as keyof Object] as File;
+          console.log(photos[photo as keyof Object]["file" as keyof Object]);
+          let file = photos[photo as keyof Object][
+            "file" as keyof Object
+          ] as File;
           formData.append("files", file);
-          photoIds.push(photo + "." + file.name.split('.').slice(-1));
+          photoIds.push(photo + "." + file.name.split(".").slice(-1));
         });
 
         // Adding photo ids to form data
-        formData.append('photoIds', photoIds.toString());
-        formData.append('userId', JSON.parse(localStorage.getItem('useParknestStore') ?? '')['userId']);
-
-        // let data = {
-        //   plot_name: formData.get('name'),
-        //   price: formData.get('price'),
-        //   plot_location: formData.get('location'),
-        //   description: formData.get('description'),
-        //   capacity: formData.get('capacity'),
-        //   photos: photos,
-        //   user_id: ''
-        // }
+        formData.append("photoIds", photoIds.toString());
+        formData.append("location", JSON.stringify(locationObj));
+        formData.append(
+          "userId",
+          JSON.parse(localStorage.getItem("useParknestStore") ?? "")["userId"]
+        );
 
         // Saving data
         fetch("/api/plots", {
@@ -77,6 +85,25 @@ export default function COPlotsPage() {
           .then((response) => response.json())
           .then((response) => {
             console.log(response);
+            if (response.acknowledged){
+              // Show plot added
+              setSuccessMessage(true);
+
+              // clear states
+              (document.getElementById('add-plot-form') as HTMLFormElement).reset();
+              setLocationObj(null);
+              setLatitude(0);
+              setLongitude(0);
+              setZoom(-1);
+              setPhotos({});
+
+              // scroll up
+              window.scroll({
+                top: 0,
+                left: 0,
+                behavior: 'smooth'
+              });
+            }
           })
           .catch((error) => console.log(error));
       }}
@@ -89,9 +116,19 @@ export default function COPlotsPage() {
           </div>
         </div>
       </div>
-
       {/* Space */}
       <div style={{ height: "20px" }}></div>
+
+      {successMessage && <div className="container-fluid">
+        <div className="row">
+          <div className="col-12">
+            <div className="alert alert-success alert-dismissible fade show" role="alert">
+              <strong>Plot added successfully!</strong> Go to <a href="/user/po/plots">plots</a> page to see plots.
+              <button type="button" className="btn-close" data-bs-dismiss='alert' aria-label="Close"></button>
+            </div>
+          </div>
+        </div>
+      </div>}
 
       {/* Map and plot detail row */}
       <div className="container-fluid">
@@ -136,22 +173,52 @@ export default function COPlotsPage() {
                   name="price"
                 />
               </div>
-
+      
               {/* Form field */}
               <div className="col-8">
                 <label
                   htmlFor="plot-location"
                   className={`${addPlotCSS.labels} form-label small`}
                 >
-                  Plot location
+                  Plot location <span className="small text-info">Select location from dropdown</span>
                 </label>
-                <input
+                {/* <input
                   type="text"
                   id="plot-location"
                   className="form-control"
                   name="location"
                   required
-                />
+                /> */}
+                <SearchBox
+                accessToken="pk.eyJ1IjoiZGV2ZWxvcGVyLWJtYmNvcnAiLCJhIjoiY2xscnRkMjg4MHZ3czNkdGhvZWZ2Z3FmdyJ9.08SvDDYJ4oInBba-ClOtAQ"
+                options={{ country: "IN", language: "en" }}
+                placeholder="Enter plot location"
+                value=""
+                marker={new mapboxgl.Marker({
+                  color: '#3D2857'
+                })}
+                theme={{
+                  variables: {
+                    colorPrimary: '#3D2857',
+                    boxShadow: 'none',
+                    border:  '1px solid #E2E6ED',
+                    borderRadius: '0.4em'
+                  }
+                }}
+                onRetrieve={(res) => {
+                  setLocationObj({
+                    full_address: res.features[0].properties.full_address,
+                    coordinates: res.features[0].properties.coordinates,
+                    name: res.features[0].properties.name
+                  })
+                }}
+                map={mapObj}
+                mapboxgl={mapboxgl}
+                name='location'
+                id="plot-location"
+                onChange={(value) => setLocationObj(null)}
+                required
+              />
               </div>
               <div className="col-4">
                 <label

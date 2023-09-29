@@ -17,8 +17,12 @@ export async function POST(request: Request){
 
     // Uploading data
     let index = 0;
-    let photoIds: string[] = formData.get('photoIds')?.toString().split(',') as string[];
+    let photoUrls = null;
     let photosFiles = formData.getAll('files');
+    
+    if(photosFiles.length != 0){
+    
+    let photoIds: string[] = formData.get('photoIds')?.toString().split(',') as string[];
 
     let response = await Promise.all(
         photoIds.map(async (photoId, index) => {
@@ -28,21 +32,22 @@ export async function POST(request: Request){
     );
 
     // Getting photo urls
-    let photoUrls = await Promise.all(
+    photoUrls = await Promise.all(
         response.map(async (snapshot) => {
             return getDownloadURL(snapshot.ref);
         })
     );
+    }
 
     // saving data to mongodb
     let status = await mongoClient.collection('plots').insertOne({
         _id: plotId,
         plot_name: formData.get('name'),
         price: formData.get('price'),
-        plot_location: formData.get('location'),
+        plot_location: JSON.parse(formData.get('location') as string),
         description: formData.get('description'),
         capacity: formData.get('capacity'),
-        photos: photoUrls,
+        photos: photoUrls ?? [],
         user_id: formData.get('userId'),
     });
 
