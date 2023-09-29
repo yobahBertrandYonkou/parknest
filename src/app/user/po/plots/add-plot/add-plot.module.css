@@ -50,3 +50,70 @@
     height: 200px;
     object-fit: cover;
 }
+
+.photoAddBtn{
+    color: var(--secondary-color);
+}
+
+.photoAddBtn:hover{
+    cursor: pointer;
+    color: var(--primary-dashboard-color);
+}
+
+.photoAddBtn:active{
+    color: var(--secondary-color);
+}
+
+.photoAction{
+    position: absolute;
+    top: 0;
+    background-color: rgba(0, 0, 0, 0.2);
+    width: 100%;
+    height: 100%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.photoActionBtn:hover{
+    color: var(--primary-color);
+    cursor: pointer;
+}
+
+.view{
+    color: #e8b464;
+}
+
+.delete{
+    color: #e86464;
+}
+
+.view:active{
+    color: #e8b464;
+}
+
+.delete:active{
+    color: #e86464;
+}
+
+.photoCard:hover .photoAction{
+    cursor: pointer;
+    display: flex;
+}
+
+.imageModal{
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.imageModalImage{
+    height: 100%;
+}

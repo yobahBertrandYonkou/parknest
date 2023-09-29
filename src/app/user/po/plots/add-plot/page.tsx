@@ -1,9 +1,11 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 import addPlotCSS from "./add-plot.module.css";
 import "mapbox-gl/dist/mapbox-gl.css";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
-import { useEffect, useRef, useState } from "react";
-import { PhotoAlbum } from "react-photo-album";
+import { SetStateAction, useEffect, useRef, useState } from "react";
+import { Photo, PhotoAlbum } from "react-photo-album";
+
 mapboxgl.accessToken =
   "pk.eyJ1IjoiZGV2ZWxvcGVyLWJtYmNvcnAiLCJhIjoiY2xscnRkMjg4MHZ3czNkdGhvZWZ2Z3FmdyJ9.08SvDDYJ4oInBba-ClOtAQ";
 
@@ -13,6 +15,8 @@ export default function COPlotsPage() {
   const [latitude, setLatitude] = useState(77.4661303);
   const [longitude, setLongitude] = useState(12.9539456);
   const [zoom, setZoom] = useState(11);
+  const [photos, setPhotos] = useState<Object>({});
+  const [showCurrentImage, setShowCurrentImage] = useState<boolean>(false);
 
   useEffect(() => {
     if (map.current) return; // initialize map only once
@@ -108,35 +112,84 @@ export default function COPlotsPage() {
           {/* Photo title bar */}
           <div className={`${addPlotCSS.photoTitleBar} col-12`}>
             <div className={addPlotCSS.photoTitle}>Photos</div>
-            <div className={addPlotCSS.photoAddPhoto}><i className="fa-solid fa-file-circle-plus"></i></div>
+            <div className={addPlotCSS.photoAddBtn} onClick={() => {
+              let photo = document.getElementById('plot-photo') as HTMLInputElement;
+
+              // Opening select window
+              photo?.click();
+
+              // Add selected photos to photo list
+              photo?.addEventListener('change', (event) => {
+
+                if (photo.files){
+                  // creating file reader object
+                  let reader = new FileReader();
+  
+                  // handling file upload by reader
+                  reader.onload = (event) => {
+                    let temp = {}
+                    let key = new Date().getTime();
+                    temp[key] = { src: event.target?.result, width: 800, height: 600, 'key': key };
+
+                    setPhotos({
+                      ...(photos || []),
+                      ...temp
+                  });
+                  }
+
+                  // Reading file as data url
+                  reader.readAsDataURL(photo.files[0]);
+                }
+
+              });
+
+
+            }}>
+              <i className="fa-solid fa-file-circle-plus"></i>
+              <input style={{ display: 'none' }} type="file" id="plot-photo" accept="image/*" />
+            </div>
           </div>
 
           {/* Photos */}
           <div className="col-12 container-fluid">
             <div className="row">
-              <PhotoAlbum 
-                photos={[
-                  { src: 'https://i.imgur.com/CzXTtJV.jpg', width: 800, height: 600 },
-                  { src: 'https://i.imgur.com/OB0y6MR.jpg', width: 800, height: 600 },
-                  { src: 'https://farm2.staticflickr.com/1533/26541536141_41abe98db3_z_d.jpg', width: 800, height: 600 },
-                  { src: 'https://farm4.staticflickr.com/3075/3168662394_7d7103de7d_z_d.jpg', width: 800, height: 600 },
-                  { src: 'https://farm9.staticflickr.com/8505/8441256181_4e98d8bff5_z_d.jpg', width: 800, height: 600 },
-                  { src: 'https://i.imgur.com/OnwEDW3.jpg', width: 800, height: 600 },
-                  { src: 'https://farm3.staticflickr.com/2220/1572613671_7311098b76_z_d.jpg', width: 800, height: 600 },
-                  { src: 'https://farm6.staticflickr.com/5590/14821526429_5c6ea60405_z_d.jpg', width: 800, height: 600 },
-                  { src: 'https://farm7.staticflickr.com/6089/6115759179_86316c08ff_z_d.jpg', width: 800, height: 600 },
-                  { src: 'https://farm2.staticflickr.com/1090/4595137268_0e3f2b9aa7_z_d.jpg', width: 800, height: 600 },
-                  { src: 'https://farm4.staticflickr.com/3224/3081748027_0ee3d59fea_z_d.jpg', width: 800, height: 600 },
-                  { src: 'https://farm8.staticflickr.com/7377/9359257263_81b080a039_z_d.jpg', width: 800, height: 600 },
-                  { src: 'https://farm9.staticflickr.com/8295/8007075227_dc958c1fe6_z_d.jpg', width: 800, height: 600 },
-                  { src: 'https://farm2.staticflickr.com/1449/24800673529_64272a66ec_z_d.jpg', width: 800, height: 600 },
-                  { src: 'https://farm4.staticflickr.com/3752/9684880330_9b4698f7cb_z_d.jpg', width: 800, height: 600 },
-                  { src: 'https://farm4.staticflickr.com/3827/11349066413_99c32dee4a_z_d.jpg', width: 800, height: 600 }
-                ]}
-
+              <PhotoAlbum
+                photos={
+                  Object.keys(photos as Object).map((key) => { return photos[key as keyof Object]}) as unknown as Photo[] }
                 layout="columns"
+                renderPhoto={({ photo, wrapperStyle, renderDefaultPhoto}) => (
+                  <div className={addPlotCSS.photoCard} style={{ position: 'relative', ...wrapperStyle }}>
+                    {renderDefaultPhoto({wrapped: false})}
 
-                onClick={({ index }) => {window.alert(index)}}
+                    {/* Photo actions */}
+                    <div className={addPlotCSS.photoAction}>
+                      <div className={`${addPlotCSS.photoActionBtn} ${addPlotCSS.view}`} onClick={() => {
+                        // open photo in new window
+                        setShowCurrentImage(true);
+                        }}>
+                        <i className="fa-solid fa-eye"></i>
+                      </div>
+                      <div style={{width: '30px'}}></div>
+                      <div className={`${addPlotCSS.photoActionBtn} ${addPlotCSS.delete}`} onClick={() => {
+                        // temporarily storing photo
+                        let temp = photos;          
+                        
+                        // deleting photo
+                        delete temp[photo.key as keyof Object];
+
+                        // updating photos
+                        setPhotos({...temp});
+                      }}>
+                        <i className="fa-solid fa-trash"></i>
+                      </div>
+                    </div>
+
+                    {/* Image viewer */}
+                    {showCurrentImage && <div className={addPlotCSS.imageModal} onClick={() => setShowCurrentImage(false)}>
+                      <img className={addPlotCSS.imageModalImage} src={photo.src} alt={photo.key} />
+                    </div>}
+                  </div>
+                )}
               />
             </div>
           </div>

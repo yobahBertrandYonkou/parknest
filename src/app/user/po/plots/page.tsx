@@ -23,9 +23,11 @@ export default function POPlotsPage() {
               placeholder="Search"
             />
           </div>
-          <div className={plotCSS.addPlotBtn}>
-            <i className="fa-solid fa-plus"></i> New plot
-          </div>
+          <a style={{ textDecoration: 'none' }} href="plots/add-plot">
+            <div className={plotCSS.addPlotBtn}>
+              <i className="fa-solid fa-plus"></i> New plot
+            </div>
+          </a>
         </div>
         {/* Top bar ends */}
       </div>
