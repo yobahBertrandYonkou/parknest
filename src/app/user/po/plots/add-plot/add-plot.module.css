@@ -117,3 +117,30 @@
 .imageModalImage{
     height: 100%;
 }
+
+.saveBtnContainer{
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+    margin-bottom: 40px;
+}
+
+.save{
+    background-color: var(--primary-dashboard-color);
+    color: white;
+    width: 100px;
+    text-align: center;
+    padding: 5px;
+    border-radius: 50px;
+    user-select: none;
+    border: none;
+}
+
+.save:hover{
+    cursor: pointer;
+    background-color: var(--secondary-color);
+}
+
+.save:active{
+    background-color: var(--primary-dashboard-color);
+}

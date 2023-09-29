@@ -26,10 +26,27 @@ export default function COPlotsPage() {
       center: [latitude, longitude],
       zoom: zoom,
     });
+
+    // listing to form submitting
+    document.getElementById('add-plot-form')?.addEventListener('submit', (event) => {
+      event.preventDefault();
+      
+      // getting data from form
+      let formData = new FormData(event.target as HTMLFormElement);
+      let data = {
+        plot_name: formData.get('name'),
+        price: formData.get('price'),
+        plot_location: formData.get('location'),
+        description: formData.get('description'),
+        photos: photos
+      }
+    
+      
+    })
   });
 
   return (
-    <>
+    <form id="add-plot-form">
       {/* Top bar */}
       <div className="container-fluid">
         <div className="row">
@@ -57,7 +74,7 @@ export default function COPlotsPage() {
                 <label htmlFor="plot-name" className={`${addPlotCSS.labels} form-label small`}>
                   Plot name
                 </label>
-                <input type="text" id="plot-name" className="form-control" />
+                <input required type="text" id="plot-name" className="form-control" name="name" />
               </div>
 
               {/* Form field */}
@@ -65,7 +82,7 @@ export default function COPlotsPage() {
                 <label htmlFor="plot-price" className={`${addPlotCSS.labels} form-label small`}>
                   Price per hour
                 </label>
-                <input type="number" id="plot-price" className="form-control" />
+                <input required type="number" id="plot-price" className="form-control" name="price" />
               </div>
 
               {/* Form field */}
@@ -77,6 +94,7 @@ export default function COPlotsPage() {
                   type="text"
                   id="plot-location"
                   className="form-control"
+                  name="location"
                 />
               </div>
 
@@ -85,9 +103,10 @@ export default function COPlotsPage() {
                 <label htmlFor="plot-description" className={`${addPlotCSS.labels} form-label small`}>
                   Plot description
                 </label>
-                <textarea
+                <textarea required 
                   id="plot-description"
                   className="form-control"
+                  name="description"
                 ></textarea>
               </div>
             </div>
@@ -194,8 +213,11 @@ export default function COPlotsPage() {
             </div>
           </div>
         </div>
+        <div className={`${addPlotCSS.saveBtnContainer} col-12`}>
+          <input type="submit" className={addPlotCSS.save} value={'Save'}/>
+        </div>
       </div>
 
-    </>
+    </form>
   );
 }
