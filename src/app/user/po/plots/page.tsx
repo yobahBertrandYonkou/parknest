@@ -66,6 +66,7 @@ export default function POPlotsPage() {
                   <div key={plot["_id"]} className="col-lg-3">
                     <div className={plotCSS.card}>
                       <div className={plotCSS.photo}>
+                        <a href={`/user/po/plots/plot-details?plotId=${plot['_id']}`}>
                         <img
                         className={plotCSS.cardImg}
                           src={
@@ -75,6 +76,7 @@ export default function POPlotsPage() {
                           }
                           alt={plot["photos"]["plot_name"]}
                         />
+                        </a>
                       </div>
                       <div className={plotCSS.cardContent}>
                         <div className={plotCSS.name}>{plot["plot_name"]}</div>
