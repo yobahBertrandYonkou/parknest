@@ -1,55 +1,97 @@
-'use client';
+"use client";
 
 import plotDetailsCSS from "./plot-details.module.css";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
-import { Carousel } from 'react-responsive-carousel';
-import { useState } from "react";
+import { Carousel } from "react-responsive-carousel";
+import { useEffect, useState } from "react";
 import Checkout from "./checkout/checkout";
 
 export default function PlotDetails() {
   // Controls the visibility of the checkout page
   let [showCheckout, setShowCheckout] = useState(false);
+  let [data, setData] = useState(null);
+
+  useEffect(() => {
+    // getting plot id from url
+    let plotId = new URL(window.location.href).searchParams.get("plotId");
+
+    // fetch plot details
+    fetch("/api/plots/plot-details?plotId=" + plotId)
+      .then((response) => response.json())
+      .then((response) => {
+        console.log(response);
+        setData(response.data);
+      })
+      .then((error) => console.log(error));
+  }, []);
 
   return (
     <>
-      <div className={ plotDetailsCSS.mainContainer }>
-        {/* Checkout popup */}
-         { showCheckout && <Checkout changeVisibility={setShowCheckout} /> }
+      {data != null && (
+        <div className={plotDetailsCSS.mainContainer}>
+          {/* Checkout popup */}
+          {showCheckout && <Checkout changeVisibility={setShowCheckout} />}
 
-        {/* First row */}
-      <div className={plotDetailsCSS.firstRow}>
-        <div>Plot Details</div>
-        <div className={plotDetailsCSS.bookBtn} onClick={ () => setShowCheckout(true) }>Book now</div>
-      </div>
-
-      {/* Plot details */}
-      <div className={plotDetailsCSS.plotDetails}>
-        <div className={plotDetailsCSS.plotName}>Plot name</div>
-        <div className={plotDetailsCSS.row}>
-          <div className={plotDetailsCSS.location}>Plot location here</div>
-          <div className={plotDetailsCSS.price}>Price per hour</div>
-        </div>
-
-        {/* Photo carousel */}
-        <div className={ plotDetailsCSS.photoCarouselContainer }>
-        <Carousel showArrows={true} autoPlay={true} interval={5} showThumbs={false}>
-        {/* <Carousel showArrows={true} > */}
-          <div className={plotDetailsCSS.imageContainer}>
-            <img className={plotDetailsCSS.images} src="https://images.freeimages.com/images/large-previews/636/holding-a-dot-com-iii-1411477.jpg" alt="image1" />
+          {/* First row */}
+          <div className={plotDetailsCSS.firstRow}>
+            <div>Plot Details</div>
+            <div
+              className={plotDetailsCSS.bookBtn}
+              onClick={() => setShowCheckout(true)}
+            >
+              Book now
+            </div>
           </div>
-          <div className={plotDetailsCSS.imageContainer}>
-            <img className={plotDetailsCSS.images} src="https://images.freeimages.com/images/large-previews/d4f/www-1242368.jpg" alt="image2" />
-          </div>
-        </Carousel>
-        </div>
-        {/* Plot description */}
-        <div className={ plotDetailsCSS.description}>
-        <div className={ plotDetailsCSS.descriptionTitle }>Plot description</div>
-        <div className={ plotDetailsCSS.descriptionText }>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</div>
-        </div>
 
-      </div>
-      </div>
+          {/* Plot details */}
+          <div className={plotDetailsCSS.plotDetails}>
+            <div className={plotDetailsCSS.plotName}>{data["plot_name"]}</div>
+            <div className={plotDetailsCSS.row}>
+              <div className={plotDetailsCSS.location}>
+                {data["plot_location"]["full_address"]}
+              </div>
+              <div className={plotDetailsCSS.price}>
+                ₹{data["price"]} per hour
+              </div>
+            </div>
+
+            {/* Photo carousel */}
+            <div className={plotDetailsCSS.photoCarouselContainer}>
+              <Carousel
+                showArrows={true}
+                autoPlay={true}
+                interval={5}
+                showThumbs={false}
+              >
+                {/* <Carousel showArrows={true} > */}
+                
+
+                {(data["photos"] as string[]).map((photo) => {
+                  return (
+                    <div key={photo} className={plotDetailsCSS.imageContainer}>
+                      <img
+                        className={plotDetailsCSS.images}
+                        src={photo}
+                        alt={photo}
+                      />
+                    </div>
+                  );
+                })}
+                
+              </Carousel>
+            </div>
+            {/* Plot description */}
+            <div className={plotDetailsCSS.description}>
+              <div className={plotDetailsCSS.descriptionTitle}>
+                Plot description
+              </div>
+              <div className={plotDetailsCSS.descriptionText}>
+                {data["description"]}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }
