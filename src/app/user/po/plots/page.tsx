@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 import { useEffect, useState } from "react";
 import plotCSS from "./plots.module.css";
@@ -23,8 +24,7 @@ export default function POPlotsPage() {
       .then(async (response) => {
         console.log(response);
         // setting data
-        setData(response.dataList);
-        
+        setData(response.data);
       })
       .catch((error) => console.log(error));
   }, []);
@@ -59,170 +59,50 @@ export default function POPlotsPage() {
       <div className="container-fluid">
         <div className="row">
           {/* Plot card */}
-          <div className="col-lg-3">
-            <div className={plotCSS.card}>
-              <div className={plotCSS.photo}></div>
-              <div className={plotCSS.cardContent}>
-                <div className={plotCSS.name}>Land title will be kept here</div>
-                <div className={plotCSS.description}>
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry.
-                </div>
-                <div className={plotCSS.footer}>
-                  <div className={plotCSS.price}>₹50 per hour</div>
-                  <div className={plotCSS.icons}>
-                    <div className={plotCSS.edit}>
-                      <i className="fa-solid fa-pen-to-square"></i>
-                    </div>
-                    <div
-                      className={plotCSS.delete}
-                      onClick={() => setShowDeleteWarning(true)}
-                    >
-                      <i className="fa-solid fa-trash"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Plot card */}
-          <div className="col-lg-3">
-            <div className={plotCSS.card}>
-              <div className={plotCSS.photo}></div>
-              <div className={plotCSS.cardContent}>
-                <div className={plotCSS.name}>Land title will be kept here</div>
-                <div className={plotCSS.description}>
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry.
-                </div>
-                <div className={plotCSS.footer}>
-                  <div className={plotCSS.price}>₹50 per hour</div>
-                  <div className={plotCSS.icons}>
-                    <div className={plotCSS.edit}>
-                      <i className="fa-solid fa-pen-to-square"></i>
-                    </div>
-                    <div
-                      className={plotCSS.delete}
-                      onClick={() => setShowDeleteWarning(true)}
-                    >
-                      <i className="fa-solid fa-trash"></i>
+          {data !== null &&
+            data.map((plot) => {
+              return (
+                <>
+                  <div key={plot["_id"]} className="col-lg-3">
+                    <div className={plotCSS.card}>
+                      <div className={plotCSS.photo}>
+                        <img
+                        className={plotCSS.cardImg}
+                          src={
+                            (plot["photos"] as Array<string>).length != 0
+                              ? plot["photos"][0]
+                              : "https://storage.googleapis.com/proudcity/mebanenc/uploads/2021/03/placeholder-image-768x576.png"
+                          }
+                          alt={plot["photos"]["plot_name"]}
+                        />
+                      </div>
+                      <div className={plotCSS.cardContent}>
+                        <div className={plotCSS.name}>{plot["plot_name"]}</div>
+                        <div className={plotCSS.description}>
+                          {plot["description"]}
+                        </div>
+                        <div className={plotCSS.footer}>
+                          <div className={plotCSS.price}>
+                            ₹{plot["price"]} per hour
+                          </div>
+                          <div className={plotCSS.icons}>
+                            <div className={plotCSS.edit}>
+                              <i className="fa-solid fa-pen-to-square"></i>
+                            </div>
+                            <div
+                              className={plotCSS.delete}
+                              onClick={() => setShowDeleteWarning(true)}
+                            >
+                              <i className="fa-solid fa-trash"></i>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Plot card */}
-          <div className="col-lg-3">
-            <div className={plotCSS.card}>
-              <div className={plotCSS.photo}></div>
-              <div className={plotCSS.cardContent}>
-                <div className={plotCSS.name}>Land title will be kept here</div>
-                <div className={plotCSS.description}>
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry.
-                </div>
-                <div className={plotCSS.footer}>
-                  <div className={plotCSS.price}>₹50 per hour</div>
-                  <div className={plotCSS.icons}>
-                    <div className={plotCSS.edit}>
-                      <i className="fa-solid fa-pen-to-square"></i>
-                    </div>
-                    <div
-                      className={plotCSS.delete}
-                      onClick={() => setShowDeleteWarning(true)}
-                    >
-                      <i className="fa-solid fa-trash"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          {/* Plot card */}
-          <div className="col-lg-3">
-            <div className={plotCSS.card}>
-              <div className={plotCSS.photo}></div>
-              <div className={plotCSS.cardContent}>
-                <div className={plotCSS.name}>Land title will be kept here</div>
-                <div className={plotCSS.description}>
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry.
-                </div>
-                <div className={plotCSS.footer}>
-                  <div className={plotCSS.price}>₹50 per hour</div>
-                  <div className={plotCSS.icons}>
-                    <div className={plotCSS.edit}>
-                      <i className="fa-solid fa-pen-to-square"></i>
-                    </div>
-                    <div
-                      className={plotCSS.delete}
-                      onClick={() => setShowDeleteWarning(true)}
-                    >
-                      <i className="fa-solid fa-trash"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          {/* Plot card */}
-          <div className="col-lg-3">
-            <div className={plotCSS.card}>
-              <div className={plotCSS.photo}></div>
-              <div className={plotCSS.cardContent}>
-                <div className={plotCSS.name}>Land title will be kept here</div>
-                <div className={plotCSS.description}>
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry.
-                </div>
-                <div className={plotCSS.footer}>
-                  <div className={plotCSS.price}>₹50 per hour</div>
-                  <div className={plotCSS.icons}>
-                    <div className={plotCSS.edit}>
-                      <i className="fa-solid fa-pen-to-square"></i>
-                    </div>
-                    <div
-                      className={plotCSS.delete}
-                      onClick={() => setShowDeleteWarning(true)}
-                    >
-                      <i className="fa-solid fa-trash"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Plot card */}
-          <div className="col-lg-3">
-            <div className={plotCSS.card}>
-              <div className={plotCSS.photo}></div>
-              <div className={plotCSS.cardContent}>
-                <div className={plotCSS.name}>Land title will be kept here</div>
-                <div className={plotCSS.description}>
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry.
-                </div>
-                <div className={plotCSS.footer}>
-                  <div className={plotCSS.price}>₹50 per hour</div>
-                  <div className={plotCSS.icons}>
-                    <div className={plotCSS.edit}>
-                      <i className="fa-solid fa-pen-to-square"></i>
-                    </div>
-                    <div
-                      className={plotCSS.delete}
-                      onClick={() => setShowDeleteWarning(true)}
-                    >
-                      <i className="fa-solid fa-trash"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+                </>
+              );
+            })}
         </div>
       </div>
 
