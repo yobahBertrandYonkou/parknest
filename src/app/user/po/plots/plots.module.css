@@ -89,12 +89,13 @@
     color: #667085;
     font-size: 12px;
     margin-bottom: 10px;
+    height: 50px;
 }
 
 .footer{
     display: flex;
     justify-content: space-between;
-    margin-top: 30px;
+    margin-top: 10px;
 }
 
 .icons{

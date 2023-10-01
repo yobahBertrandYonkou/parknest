@@ -11,6 +11,14 @@ export default function POPlotsPage() {
   const [data, setData] = useState([]);
   const [tempData, setTempData] = useState([]);
 
+  // Adds ellipse to end of text
+  let addEllipsis = (text: string, length: number = 70) => {
+    if(text.length > length){
+      return text.slice(0, 67) + '...';
+    }
+    return text;
+  }
+
   // fetches plots
   let getPlots = async () => {
     await fetch(
@@ -123,7 +131,7 @@ export default function POPlotsPage() {
                       <div className={plotCSS.cardContent}>
                         <div className={plotCSS.name}>{plot["plot_name"]}</div>
                         <div className={plotCSS.description}>
-                          {plot["description"]}
+                          {addEllipsis(plot["description"])}
                         </div>
                         <div className={plotCSS.footer}>
                           <div className={plotCSS.price}>
