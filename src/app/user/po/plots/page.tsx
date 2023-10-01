@@ -118,6 +118,7 @@ export default function POPlotsPage() {
                           href={`/user/po/plots/plot-details?plotId=${plot["_id"]}`}
                         >
                           <img
+                          title="Click to see plot details"
                             className={plotCSS.cardImg}
                             src={
                               (plot["photos"] as Array<string>).length != 0
@@ -138,11 +139,12 @@ export default function POPlotsPage() {
                             ₹{plot["price"]} per hour
                           </div>
                           <div className={plotCSS.icons}>
-                            <div className={plotCSS.edit}>
+                            <div className={plotCSS.edit} title="Edit plot details">
                               <i className="fa-solid fa-pen-to-square"></i>
                             </div>
                             <div
                               className={plotCSS.delete}
+                              title="Delete plot"
                               onClick={() => {
                                 setShowDeleteWarning(true);
                                 setPlotIdOfInterest(plot["_id"]);
