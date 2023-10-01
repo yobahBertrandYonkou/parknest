@@ -88,3 +88,31 @@ export async function POST(request: Request) {
 
   return NextResponse.json(status);
 }
+
+
+export async function DELETE(request: Request) {
+  let body = await request.json() as Object;
+
+  console.log(body);
+  
+
+  if (!Object.keys(body).includes('plotId')) {
+    return NextResponse.json({
+      status: "failed",
+      message: "Query string `plotId` is required in the body.",
+    });
+  }
+
+  // fetching data
+  let status = await mongoClient.collection("plots").deleteOne({
+    _id: new ObjectId(body['plotId' as keyof Object] as unknown as string),
+  });
+
+  console.log(status);
+  
+  // returning data
+  return NextResponse.json({
+    status: "ok",
+    data: status,
+  });
+}

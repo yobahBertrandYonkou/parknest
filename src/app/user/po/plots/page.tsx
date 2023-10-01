@@ -7,10 +7,12 @@ import { FindCursor, WithId } from "mongodb";
 export default function POPlotsPage() {
   // Variables for controlling delete warning pop up
   const [showDeleteWarning, setShowDeleteWarning] = useState(false);
+  const [plotIdOfInterest, setPlotIdOfInterest] = useState(null);
   const [data, setData] = useState([]);
 
-  useEffect(() => {
-    fetch(
+  // fetches plots
+  let getPlots = async () => {
+    await fetch(
       ("/api/plots?userId=" +
         JSON.parse(localStorage.getItem("useParknestStore") as string)[
           "userId"
@@ -27,6 +29,10 @@ export default function POPlotsPage() {
         setData(response.data);
       })
       .catch((error) => console.log(error));
+  }
+
+  useEffect(() => {
+    getPlots();
   }, []);
 
   return (
@@ -93,7 +99,10 @@ export default function POPlotsPage() {
                             </div>
                             <div
                               className={plotCSS.delete}
-                              onClick={() => setShowDeleteWarning(true)}
+                              onClick={() => {
+                                setShowDeleteWarning(true);
+                                setPlotIdOfInterest(plot['_id']);
+                              }}
                             >
                               <i className="fa-solid fa-trash"></i>
                             </div>
@@ -135,7 +144,24 @@ export default function POPlotsPage() {
                   >
                     Cancel
                   </div>
-                  <div className={plotCSS.deleteBtn}>Delete</div>
+                  <div className={plotCSS.deleteBtn} onClick={() => {
+                  // sending delete request
+                  fetch(`/api/plots`, {
+                    method: 'DELETE',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ plotId: plotIdOfInterest})
+                  }).then(response => response.json())
+                  .then(response => {
+                    console.log(response);
+                    
+                    // refreshing data
+                    if (response.data.acknowledged){
+                      getPlots();
+                      setShowDeleteWarning(false);
+                    }
+                    
+                  }).catch(error => console.log(error));
+                }}>Delete</div>
                 </div>
               </div>
             </div>
