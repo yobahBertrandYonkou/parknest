@@ -9,6 +9,7 @@ export default function POPlotsPage() {
   const [showDeleteWarning, setShowDeleteWarning] = useState(false);
   const [plotIdOfInterest, setPlotIdOfInterest] = useState(null);
   const [data, setData] = useState([]);
+  const [tempData, setTempData] = useState([]);
 
   // fetches plots
   let getPlots = async () => {
@@ -27,9 +28,10 @@ export default function POPlotsPage() {
         console.log(response);
         // setting data
         setData(response.data);
+        setTempData(response.data);
       })
       .catch((error) => console.log(error));
-  }
+  };
 
   useEffect(() => {
     getPlots();
@@ -49,7 +51,39 @@ export default function POPlotsPage() {
             <input
               className={plotCSS.search}
               type="search"
-              placeholder="Search"
+              placeholder="Search by name, description & location..."
+              onChange={(event) => {
+                // getting query
+                let query = event.target.value.toLowerCase();
+
+                if (query === "") {
+                  // resetting data if there's not search term
+                  setData(tempData);
+                } else {
+                  console.log(query);
+                  
+                  // Filtering records where description or name or location contains query
+                  setData(
+                    tempData.filter((plot) => {
+                      return (
+                        (plot["plot_name"] as string)
+                          .toLowerCase()
+                          .includes(query) ||
+                        (plot["description"] as string)
+                          .toLowerCase()
+                          .includes(query) ||
+                        (
+                          (plot["plot_location"] as Object)[
+                            "full_address" as keyof Object
+                          ] as unknown as string
+                        )
+                          .toLowerCase()
+                          .includes(query)
+                      );
+                    })
+                  );
+                }
+              }}
             />
           </div>
           <a style={{ textDecoration: "none" }} href="plots/add-plot">
@@ -72,16 +106,18 @@ export default function POPlotsPage() {
                   <div key={plot["_id"]} className="col-lg-3">
                     <div className={plotCSS.card}>
                       <div className={plotCSS.photo}>
-                        <a href={`/user/po/plots/plot-details?plotId=${plot['_id']}`}>
-                        <img
-                        className={plotCSS.cardImg}
-                          src={
-                            (plot["photos"] as Array<string>).length != 0
-                              ? plot["photos"][0]
-                              : "https://storage.googleapis.com/proudcity/mebanenc/uploads/2021/03/placeholder-image-768x576.png"
-                          }
-                          alt={plot["photos"]["plot_name"]}
-                        />
+                        <a
+                          href={`/user/po/plots/plot-details?plotId=${plot["_id"]}`}
+                        >
+                          <img
+                            className={plotCSS.cardImg}
+                            src={
+                              (plot["photos"] as Array<string>).length != 0
+                                ? plot["photos"][0]
+                                : "https://storage.googleapis.com/proudcity/mebanenc/uploads/2021/03/placeholder-image-768x576.png"
+                            }
+                            alt={plot["photos"]["plot_name"]}
+                          />
                         </a>
                       </div>
                       <div className={plotCSS.cardContent}>
@@ -101,7 +137,7 @@ export default function POPlotsPage() {
                               className={plotCSS.delete}
                               onClick={() => {
                                 setShowDeleteWarning(true);
-                                setPlotIdOfInterest(plot['_id']);
+                                setPlotIdOfInterest(plot["_id"]);
                               }}
                             >
                               <i className="fa-solid fa-trash"></i>
@@ -144,24 +180,30 @@ export default function POPlotsPage() {
                   >
                     Cancel
                   </div>
-                  <div className={plotCSS.deleteBtn} onClick={() => {
-                  // sending delete request
-                  fetch(`/api/plots`, {
-                    method: 'DELETE',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ plotId: plotIdOfInterest})
-                  }).then(response => response.json())
-                  .then(response => {
-                    console.log(response);
-                    
-                    // refreshing data
-                    if (response.data.acknowledged){
-                      getPlots();
-                      setShowDeleteWarning(false);
-                    }
-                    
-                  }).catch(error => console.log(error));
-                }}>Delete</div>
+                  <div
+                    className={plotCSS.deleteBtn}
+                    onClick={() => {
+                      // sending delete request
+                      fetch(`/api/plots`, {
+                        method: "DELETE",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ plotId: plotIdOfInterest }),
+                      })
+                        .then((response) => response.json())
+                        .then((response) => {
+                          console.log(response);
+
+                          // refreshing data
+                          if (response.data.acknowledged) {
+                            getPlots();
+                            setShowDeleteWarning(false);
+                          }
+                        })
+                        .catch((error) => console.log(error));
+                    }}
+                  >
+                    Delete
+                  </div>
                 </div>
               </div>
             </div>
