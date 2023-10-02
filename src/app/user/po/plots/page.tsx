@@ -110,7 +110,6 @@ export default function POPlotsPage() {
           {data !== null &&
             data.map((plot) => {
               return (
-                <>
                   <div key={plot["_id"]} className="col-lg-3">
                     <div className={plotCSS.card}>
                       <div className={plotCSS.photo}>
@@ -140,11 +139,14 @@ export default function POPlotsPage() {
                           </div>
                           <div className={plotCSS.icons}>
                             <div className={plotCSS.edit} title="Edit plot details">
-                              <i className="fa-solid fa-pen-to-square"></i>
+                              <a style={{color: '#8f6c1a'}} href={`plots/edit-plot?plotId=${plot['_id']}`}>
+                                <i className="fa-solid fa-pen-to-square"></i>
+                              </a>
                             </div>
                             <div
                               className={plotCSS.delete}
                               title="Delete plot"
+                              style={{color: '#8f1a1a'}}
                               onClick={() => {
                                 setShowDeleteWarning(true);
                                 setPlotIdOfInterest(plot["_id"]);
@@ -157,7 +159,6 @@ export default function POPlotsPage() {
                       </div>
                     </div>
                   </div>
-                </>
               );
             })}
         </div>
