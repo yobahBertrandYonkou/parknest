@@ -107,6 +107,13 @@ export async function DELETE(request: Request) {
     });
   }
 
+  // deleting plot photos
+  let deleteStatus = await Promise.all(
+    (await listAll(ref(storage, `plots/${body["plotId" as keyof Object]}`))).items.map( doc => deleteObject(doc))
+  );
+  
+  console.log(deleteStatus);
+  
   // fetching data
   let status = await mongoClient.collection("plots").deleteOne({
     _id: new ObjectId(body["plotId" as keyof Object] as unknown as string),
