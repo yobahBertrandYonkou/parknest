@@ -235,11 +235,14 @@ export default function COPlotsPage() {
           console.log(formData.getAll("files") as Blob[]);
         }
 
+        // setting one field to non if it's we are on the add plot page
+        if (!isEdit) updateStatus['name'] = false;
+
         // Checking whether file is present or not
         if (
-          (formData.getAll("files") as Blob[]).length == 0 &&
+          ((formData.getAll("files") as Blob[]).length == 0 &&
           photoUrls.length == 0 &&
-          isEdit
+          isEdit) || Object.keys(photos).length === 0
         ) {
           alert("Please add at least one photo.");
           return;
@@ -325,6 +328,7 @@ export default function COPlotsPage() {
                   className="btn-close"
                   data-bs-dismiss="alert"
                   aria-label="Close"
+                  onClick={() => {setSuccessMessage(false)}}
                 ></button>
               </div>
             </div>
