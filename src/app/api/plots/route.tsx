@@ -16,7 +16,7 @@ export async function GET(request: Request) {
   // let body = (await request.json()) ?? {};
   let params = new URL(request.url).searchParams as URLSearchParams;
 
-  if (params.get("userId") === null) {
+  if (params.get("userId") === null && params.get("userType") === 'po') {
     return NextResponse.json({
       status: "failed",
       message: "Query string `userId` is required in the body.",
@@ -24,9 +24,9 @@ export async function GET(request: Request) {
   }
 
   // fetching data
-  let data = await mongoClient.collection("plots").find({
+  let data = await mongoClient.collection("plots").find( params.get("userType") === 'po' ? {
     user_id: params.get("userId"),
-  });
+  } : {});
 
   let dataList: Object[] = [];
 

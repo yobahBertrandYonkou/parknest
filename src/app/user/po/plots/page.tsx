@@ -22,7 +22,7 @@ export default function POPlotsPage() {
   // fetches plots
   let getPlots = async () => {
     await fetch(
-      ("/api/plots?userId=" +
+      ("/api/plots?userType=po&userId=" +
         JSON.parse(localStorage.getItem("useParknestStore") as string)[
           "userId"
         ]) as string,
