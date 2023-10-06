@@ -12,12 +12,17 @@ export default function PlotDetails() {
   let [showCheckout, setShowCheckout] = useState(false);
   let [data, setData] = useState(null);
   let [userType, setUser] = useState(null);
+  let [timeOfArrival, setTimeOfArrival] = useState(null);
+  let [parkingDuration, setParkingDuration] = useState(1);
+  let [numberOfSlots, setNumberOfSlots] = useState(1);
+  let [destination, setDestination] = useState<Object | null>(null);
 
   useEffect(() => {
     // setting user
     setUser(JSON.parse(localStorage.getItem('useParknestStore') as string).userType)
     // getting plot id from url
     let plotId = new URL(window.location.href).searchParams.get("plotId");
+    setDestination(JSON.parse(new URL(window.location.href).searchParams.get("location") as string) as Object);
 
     // fetch plot details
     fetch("/api/plots/plot-details?plotId=" + plotId)
@@ -29,57 +34,97 @@ export default function PlotDetails() {
       .then((error) => console.log(error));
   }, []);
 
+  let range = (start: number = 1, end: number) => {
+    let index = start;
+    let values: number[] = [];
+    for (index; index <= end; index++) values.push(index);
+    return values;
+  }
+
   return (
     <>
-      {data != null && (
+      {data !== null && (
         <div className={plotDetailsCSS.mainContainer}>
           {/* Checkout popup */}
           {showCheckout && 
-            <form className={checkoutCSS.mainContainer}>
+            <form className={checkoutCSS.mainContainer} onSubmit={(event) => {
+
+              if (timeOfArrival === "00:00:00"){
+                alert("Time of arirval is required!");
+                event.preventDefault();
+                return;
+              }
+
+              event.preventDefault();
+      
+              // getting data from form
+              let formData = new FormData(event.target as HTMLFormElement);
+
+              // adding time
+              formData.append('time_of_arrival', timeOfArrival as unknown as string)
+      
+              // make payments
+              
+              fetch("/api/plots/booking", {
+                method: "POST",
+                // headers: { 'Content-Type': 'multipart/form-data' },
+                body: formData,
+              })
+                .then((response) => response.json())
+                .then((response) => {
+                  console.log(response);
+                  
+                })
+                .catch((error) => console.log(error));
+            }}>
             <div className={checkoutCSS.checkoutContainer}>
               <div className="container-fluid">
                 <div className="row">
                   {/* Title bar */}
                   <div className={`col-12 ${checkoutCSS.titleBar}`}>
                     <div><b>Checkout</b></div>
-                    <div>Total price</div>
+                    <div className="small"><b>Total price:</b> ₹{numberOfSlots * parkingDuration * parseFloat(data.price)}</div>
                   </div>
                   <hr />
     
                   {/* Middle section */}
                   <div className={`col-12 ${checkoutCSS.content}`}>
-                    <div>Destination</div>
-                    <div>Plot location</div>
+                    <div className="small"><b>Destination:</b> {destination.name}</div>
+                    <div className="small"><b>Plot location:</b> {data.plot_location.full_address}</div>
                   </div>
     
                   {/* Input fields */}
     
                   <div className="col-6">
                   <label htmlFor="" className="form-label small">Parking duration</label>
-                    <select className="form-select">
-                      <option value="">1 hour</option>
-                      <option value="">1 hour</option>
-                      <option value="">1 hour</option>
-                      <option value="">1 hour</option>
+                    <select name="duration" defaultValue={parkingDuration} className="form-select" onChange={() => setParkingDuration(parseInt(event?.target.value))}>
+                      <option value="1">1 hour</option>
+                      <option value="2">2 hours</option>
+                      <option value="3">3 hours</option>
+                      <option value="4">4 hours</option>
+                      <option value="5">5 hours</option>
                     </select>
                   </div>
                   <div className="col-6">
                   <label htmlFor="" className="form-label small">Number of slots</label>
-                    <select className="form-select">
-                      <option value="">2 slots</option>
-                      <option value="">2 slots</option>
-                      <option value="">2 slots</option>
-                      <option value="">2 slots</option>
+                    <select name="number_of_spots" defaultValue={numberOfSlots} className="form-select" onChange={() => setNumberOfSlots(parseInt(event?.target.value))}>
+                      {
+                         range(1, data.capacity).map( index => {
+                          return (<option key={index} value={index}>{index} slots</option>)
+                         })
+                      }
                     </select>
                   </div>
                   <div style={{ marginTop: '15px'}} className="col-12">
-                    <label htmlFor="" className="form-label small">Time of arrival</label>
+                    <label htmlFor="" className="form-label small">Time of arrival (24 hours)</label>
                     <TimeField
                       className="form-control"
                       style={{
                         width: "100%",
                       }}
+                      onChange={(value) => setTimeOfArrival(value.target.value.trim())}
                       showSeconds
+                      required
                     />
                   </div>
     
@@ -88,7 +133,7 @@ export default function PlotDetails() {
                     <div className={checkoutCSS.cancel} onClick={ () => {
                       setShowCheckout(false);
                     }}>Cancel</div>
-                    <div className={checkoutCSS.pay}>Pay</div>
+                    <input type="submit" className={checkoutCSS.pay} value={"Pay"}/>
                   </div>
                 </div>
               </div>
@@ -97,7 +142,7 @@ export default function PlotDetails() {
           }
 
           {/* First row */}
-          {userType === 'co' && <div className={plotDetailsCSS.firstRow}>
+          {userType === 'co' && destination !== null && <div className={plotDetailsCSS.firstRow}>
             <div>Plot Details</div>
             <div
               className={plotDetailsCSS.bookBtn}

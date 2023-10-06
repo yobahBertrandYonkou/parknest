@@ -284,7 +284,7 @@ export default function COPlotsPage() {
                       <div className={plotCSS.card}>
                         <div className={plotCSS.photo}>
                           <a
-                            href={`/user/co/plots/plot-details?plotId=${plot["_id"]}`}
+                            href={`/user/co/plots/plot-details?plotId=${plot["_id"]}&location=${JSON.stringify(locationObj)}`}
                           >
                             <img
                               title="Click to see plot details"
