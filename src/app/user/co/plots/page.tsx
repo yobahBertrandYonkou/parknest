@@ -3,6 +3,7 @@ import plotCSS from "./plots.co.module.css";
 import "mapbox-gl/dist/mapbox-gl.css";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 import { useEffect, useRef, useState } from "react";
+import { SearchBox } from "@mapbox/search-js-react";
 mapboxgl.accessToken =
   "pk.eyJ1IjoiZGV2ZWxvcGVyLWJtYmNvcnAiLCJhIjoiY2xscnRkMjg4MHZ3czNkdGhvZWZ2Z3FmdyJ9.08SvDDYJ4oInBba-ClOtAQ";
 
@@ -12,7 +13,9 @@ export default function COPlotsPage() {
   const [latitude, setLatitude] = useState(77.4661303);
   const [longitude, setLongitude] = useState(12.9539456);
   const [zoom, setZoom] = useState(11);
+  const [mapObj, setMap] = useState<mapboxgl.Map | null>();
   const [data, setData] = useState<Array<Object[]> | null>(null);
+  const [locationObj, setLocationObj] = useState<Object | null>(null);
 
   // Adds ellipse to end of text
   let addEllipsis = (text: string, length: number = 70) => {
@@ -43,6 +46,8 @@ export default function COPlotsPage() {
       center: [latitude, longitude],
       zoom: zoom,
     });
+
+    setMap(map.current as mapboxgl.Map);
   }, []);
 
   return (
@@ -53,15 +58,37 @@ export default function COPlotsPage() {
           <div className="col-12">
             <div className={plotCSS.actionBar}>
               <div className={plotCSS.searchContainer}>
-                <div className={plotCSS.searchIcon}>
-                  <div>
-                    <i className={`fa-solid fa-magnifying-glass`}></i>
-                  </div>
-                </div>
-                <input
-                  className={plotCSS.search}
-                  type="search"
-                  placeholder="Enter destination"
+              <SearchBox
+                  accessToken="pk.eyJ1IjoiZGV2ZWxvcGVyLWJtYmNvcnAiLCJhIjoiY2xscnRkMjg4MHZ3czNkdGhvZWZ2Z3FmdyJ9.08SvDDYJ4oInBba-ClOtAQ"
+                  options={{ country: "IN", language: "en" }}
+                  placeholder="Enter and select your destination from the dropdown..."
+                  value=""
+                  marker={
+                    new mapboxgl.Marker({
+                      color: "#3D2857",
+                    })
+                  }
+                  theme={{
+                    variables: {
+                      colorPrimary: "#3D2857",
+                      boxShadow: "none",
+                      border: "2px solid rgba(61, 40, 87, 0.8)",
+                      borderRadius: "0.4em",
+                    },
+                  }}
+                  onRetrieve={(res) => {
+                    setLocationObj({
+                      full_address: res.features[0].properties.full_address,
+                      coordinates: res.features[0].properties.coordinates,
+                      name: res.features[0].properties.name,
+                    });
+                  }}
+                  map={mapObj}
+                  mapboxgl={mapboxgl}
+                  name="location"
+                  id="plot-location"
+                  onChange={(value) => setLocationObj(null)}
+                  required
                 />
               </div>
             </div>
