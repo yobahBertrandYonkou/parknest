@@ -1,13 +1,12 @@
 import razorpay from "@/app/payment/razorpay";
 import { NextResponse } from "next/server";
-import Razorpay from "razorpay";
 
 export async function POST(request: Request){
 
     // creating order
     let status = new Promise<Object>( resolve => {
         razorpay.orders.create({
-            amount: 50000,
+            amount: 500,
             currency: 'INR',
             receipt: 'order_' + new Date().getTime().toString()
     
