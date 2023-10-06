@@ -215,7 +215,8 @@ export default function COPlotsPage() {
                 {
                   bookings !== null &&
                   bookings.map( booking => {
-                    return (<div key={booking._id} className={plotCSS.historyContainer}>
+                    return (<a target="_blank" style={{textDecoration: 'none'}} href={`https://www.google.com/maps?q=${booking.parking_location.coordinates.latitude},${booking.parking_location.coordinates.longitude}`} key={booking._id}>
+                      <div className={plotCSS.historyContainer}>
                       <div className={plotCSS.historyPhoto}></div>
                       <div className={plotCSS.historyText}>
                         <div className={plotCSS.historyTitle}>Destination: {booking.destination.full_address}</div>
@@ -226,10 +227,8 @@ export default function COPlotsPage() {
                           Durationg: {booking.duration} hours at ₹ {booking.total_price}
                         </div>
                       </div>
-                      <div className={plotCSS.historyIcon}>
-                        <i className="fa-solid fa-location-dot fa-lg"></i>
-                      </div>
-                    </div>)
+                    </div>
+                    </a>)
                   })
                 }
               </div>

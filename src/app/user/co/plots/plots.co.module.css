@@ -59,6 +59,10 @@
     margin-bottom: 10px;
 }
 
+.historyContainer:hover{
+    cursor: pointer;
+}
+
 .historyText{
     font-size: 14px;
     width: 90%;
