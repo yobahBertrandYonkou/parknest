@@ -10,8 +10,11 @@ export default function PlotDetails() {
   // Controls the visibility of the checkout page
   let [showCheckout, setShowCheckout] = useState(false);
   let [data, setData] = useState(null);
+  let [userType, setUser] = useState(null);
 
   useEffect(() => {
+    // setting user
+    setUser(JSON.parse(localStorage.getItem('useParknestStore') as string).userType)
     // getting plot id from url
     let plotId = new URL(window.location.href).searchParams.get("plotId");
 
@@ -33,7 +36,7 @@ export default function PlotDetails() {
           {showCheckout && <Checkout changeVisibility={setShowCheckout} />}
 
           {/* First row */}
-          <div className={plotDetailsCSS.firstRow}>
+          {userType === 'co' && <div className={plotDetailsCSS.firstRow}>
             <div>Plot Details</div>
             <div
               className={plotDetailsCSS.bookBtn}
@@ -42,7 +45,7 @@ export default function PlotDetails() {
               Book now
             </div>
           </div>
-
+}
           {/* Plot details */}
           <div className={plotDetailsCSS.plotDetails}>
             <div className={plotDetailsCSS.plotName}>{data["plot_name"]}</div>
