@@ -6,6 +6,7 @@ import { Carousel } from "react-responsive-carousel";
 import { useEffect, useState } from "react";
 import TimeField from "react-simple-timefield";
 import checkoutCSS from "./checkout.module.css";
+import useRazorpay from "react-razorpay";
 
 export default function PlotDetails() {
   // Controls the visibility of the checkout page
@@ -15,7 +16,8 @@ export default function PlotDetails() {
   let [timeOfArrival, setTimeOfArrival] = useState(null);
   let [parkingDuration, setParkingDuration] = useState(1);
   let [numberOfSlots, setNumberOfSlots] = useState(1);
-  let [destination, setDestination] = useState<Object | null>(null);
+  let [destination, setDestination] = useState<Object | null>(null);  
+  const [Razorpay] = useRazorpay();
 
   useEffect(() => {
     // setting user
@@ -64,7 +66,8 @@ export default function PlotDetails() {
               formData.append('time_of_arrival', timeOfArrival as unknown as string)
       
               // make payments
-              
+              // creating order
+
               fetch("/api/plots/booking", {
                 method: "POST",
                 // headers: { 'Content-Type': 'multipart/form-data' },
