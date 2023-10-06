@@ -218,9 +218,9 @@ export default function COPlotsPage() {
                     return (<div key={booking._id} className={plotCSS.historyContainer}>
                       <div className={plotCSS.historyPhoto}></div>
                       <div className={plotCSS.historyText}>
-                        <div className={plotCSS.historyTitle}>Destination: {booking.destination}</div>
+                        <div className={plotCSS.historyTitle}>Destination: {booking.destination.full_address}</div>
                         <div className={plotCSS.historySubTitle}>
-                          Parking location: {booking.parking_location}
+                          Parking location: {booking.parking_location.full_address}
                         </div>
                         <div className={plotCSS.historySubTitle}>
                           Durationg: {booking.duration} hours at ₹ {booking.total_price}
