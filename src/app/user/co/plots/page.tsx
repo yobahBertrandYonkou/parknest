@@ -13,17 +13,19 @@ export default function COPlotsPage() {
   const [latitude, setLatitude] = useState(77.4661303);
   const [longitude, setLongitude] = useState(12.9539456);
   const [zoom, setZoom] = useState(11);
+  const [markerObj, setMarker] = useState<mapboxgl.Marker[]>([]);
   const [mapObj, setMap] = useState<mapboxgl.Map | null>();
   const [data, setData] = useState<Array<Object[]> | null>(null);
   const [locationObj, setLocationObj] = useState<Object | null>(null);
+  const [originalData, setOriginalData] = useState<Array<Object[]> | null>(null);
 
   // Adds ellipse to end of text
   let addEllipsis = (text: string, length: number = 70) => {
-    if(text.length > length){
-      return text.slice(0, 67) + '...';
+    if (text.length > length) {
+      return text.slice(0, 67) + "...";
     }
     return text;
-  }
+  };
 
   useEffect(() => {
     // Fetching plots
@@ -36,6 +38,7 @@ export default function COPlotsPage() {
 
         // setting data
         setData(response.data);
+        setOriginalData(response.data);
       })
       .catch((error) => console.log(error));
 
@@ -58,7 +61,7 @@ export default function COPlotsPage() {
           <div className="col-12">
             <div className={plotCSS.actionBar}>
               <div className={plotCSS.searchContainer}>
-              <SearchBox
+                <SearchBox
                   accessToken="pk.eyJ1IjoiZGV2ZWxvcGVyLWJtYmNvcnAiLCJhIjoiY2xscnRkMjg4MHZ3czNkdGhvZWZ2Z3FmdyJ9.08SvDDYJ4oInBba-ClOtAQ"
                   options={{ country: "IN", language: "en" }}
                   placeholder="Enter and select your destination from the dropdown..."
@@ -72,22 +75,97 @@ export default function COPlotsPage() {
                     variables: {
                       colorPrimary: "#3D2857",
                       boxShadow: "none",
-                      border: "2px solid rgba(61, 40, 87, 0.8)",
+                      border: "2px solid #F8F0FF",
                       borderRadius: "0.4em",
                     },
                   }}
                   onRetrieve={(res) => {
+                    console.log("Receiver");
+                    console.log(markerObj);
+                    
+                    
+                    if (markerObj?.length !== 0){
+                      markerObj.forEach(marker => {
+                        console.log(marker);
+                        
+                        marker.remove();
+                      });
+                      setMarker([]);
+                    }
                     setLocationObj({
                       full_address: res.features[0].properties.full_address,
                       coordinates: res.features[0].properties.coordinates,
                       name: res.features[0].properties.name,
                     });
+
+                    // creating center point
+                    let centerPoint = window.turf.point([
+                      res.features[0].properties.coordinates.longitude,
+                      res.features[0].properties.coordinates.latitude
+                    ]);
+
+                    // creating buffer area of 1 km radios
+                    let bufferZone = window.turf.buffer(centerPoint, 1, { units: 'kilometers'});
+                    console.log(bufferZone);
+                    
+
+                    // calculation of distance from center point to all other points
+                    let distances = {}
+
+                    // holds plots within buffer radius
+                    let plotsWithinRadius: string[] = [];
+
+                    originalData?.forEach( plot => {
+                      // creating plot point
+                      let point = window.turf.point([
+                        plot.plot_location.coordinates.longitude,
+                        plot.plot_location.coordinates.latitude,
+                      ]);
+
+                      // calculation of distance
+                      distances[plot._id as keyof Object] = window.turf.distance(centerPoint, point);
+
+                      // Checking whether plot within buffer radius
+                      if (window.turf.booleanPointInPolygon(point, bufferZone)){
+                        // saving plot id
+                        plotsWithinRadius.push(plot._id);
+
+                        // showing marker on map
+                        let marker = new mapboxgl.Marker();
+                        
+                        marker.setLngLat({
+                          lat: plot.plot_location.coordinates.latitude,
+                          lng: plot.plot_location.coordinates.longitude
+                        });
+                        marker.addTo(mapObj);
+
+                        setMarker([
+                          ...markerObj ?? [],
+                          marker
+                        ]);
+                      }
+                    });
+
+                    // updating data
+                    plotsWithinRadius.forEach( id => {
+                      return originalData[id as keyof Object];
+                    });
+
+                    console.log(distances);
+                    console.log(plotsWithinRadius);
+                    
                   }}
                   map={mapObj}
                   mapboxgl={mapboxgl}
                   name="location"
                   id="plot-location"
-                  onChange={(value) => setLocationObj(null)}
+                  onChange={(value) => {
+                    // resetting location object
+                    setLocationObj(null)
+
+                    // resetting data
+                    setData(originalData);
+                  }}
                   required
                 />
               </div>
@@ -197,45 +275,47 @@ export default function COPlotsPage() {
           </div>
 
           <div className={`${plotCSS.plotCSS} col-12 container-fluid`}>
-          <div className="row">
-          {/* Plot card */}
-          {data !== null &&
-            data.map((plot) => {
-              return (
-                  <div key={plot["_id"]} className="col-lg-3">
-                    <div className={plotCSS.card}>
-                      <div className={plotCSS.photo}>
-                        <a
-                          href={`/user/po/plots/plot-details?plotId=${plot["_id"]}`}
-                        >
-                          <img
-                          title="Click to see plot details"
-                            className={plotCSS.cardImg}
-                            src={
-                              (plot["photos"] as Array<string>).length != 0
-                                ? plot["photos"][0]
-                                : "https://storage.googleapis.com/proudcity/mebanenc/uploads/2021/03/placeholder-image-768x576.png"
-                            }
-                            alt={plot["photos"]["plot_name"]}
-                          />
-                        </a>
-                      </div>
-                      <div className={plotCSS.cardContent}>
-                        <div className={plotCSS.name}>{plot["plot_name"]}</div>
-                        <div className={plotCSS.description}>
-                          {addEllipsis(plot["description"])}
+            <div className="row">
+              {/* Plot card */}
+              {data !== null &&
+                data.map((plot) => {
+                  return (
+                    <div key={plot["_id"]} className="col-lg-3">
+                      <div className={plotCSS.card}>
+                        <div className={plotCSS.photo}>
+                          <a
+                            href={`/user/po/plots/plot-details?plotId=${plot["_id"]}`}
+                          >
+                            <img
+                              title="Click to see plot details"
+                              className={plotCSS.cardImg}
+                              src={
+                                (plot["photos"] as Array<string>).length != 0
+                                  ? plot["photos"][0]
+                                  : "https://storage.googleapis.com/proudcity/mebanenc/uploads/2021/03/placeholder-image-768x576.png"
+                              }
+                              alt={plot["photos"]["plot_name"]}
+                            />
+                          </a>
                         </div>
-                        <div className={plotCSS.footer}>
-                          <div className={plotCSS.price}>
-                            ₹{plot["price"]} per hour
+                        <div className={plotCSS.cardContent}>
+                          <div className={plotCSS.name}>
+                            {plot["plot_name"]}
+                          </div>
+                          <div className={plotCSS.description}>
+                            {addEllipsis(plot["description"])}
+                          </div>
+                          <div className={plotCSS.footer}>
+                            <div className={plotCSS.price}>
+                              ₹{plot["price"]} per hour
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-              );
-            })}
-        </div>
+                  );
+                })}
+            </div>
           </div>
         </div>
       </div>

@@ -26,6 +26,7 @@ export default function RootLayout({
 
         {/* <!-- Option 1: Bootstrap Bundle with Popper --> */}
         <Script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" />
+        <Script src="https://unpkg.com/@turf/turf@latest" />
 
         {/* Mapbox */}
         <Script src="https://unpkg.com/@mapbox/mapbox-sdk/umd/mapbox-sdk.min.js" />
