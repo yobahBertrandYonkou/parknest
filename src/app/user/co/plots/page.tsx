@@ -18,6 +18,7 @@ export default function COPlotsPage() {
   const [data, setData] = useState<Array<Object[]> | null>(null);
   const [locationObj, setLocationObj] = useState<Object | null>(null);
   const [originalData, setOriginalData] = useState<Array<Object[]> | null>(null);
+  const [bookings, setBookings] = useState<Array<Object[]> | null>(null);
 
   // Adds ellipse to end of text
   let addEllipsis = (text: string, length: number = 70) => {
@@ -39,6 +40,25 @@ export default function COPlotsPage() {
         // setting data
         setData(response.data);
         setOriginalData(response.data);
+      })
+      .catch((error) => console.log(error));
+
+    // Fetching bookings
+    fetch(
+      ("/api/plots/booking?userId=" +
+        JSON.parse(localStorage.getItem("useParknestStore") as string)[
+          "userId"
+        ]) as string,
+      {
+        method: "GET",
+      }
+    )
+      .then((response) => response.json())
+      .then(async (response) => {
+        console.log(response);
+
+        // setting data
+        setBookings(response.data);
       })
       .catch((error) => console.log(error));
 
@@ -192,84 +212,26 @@ export default function COPlotsPage() {
               {/* History list */}
               <div className={plotCSS.historyContent}>
                 {/* History item */}
-                <div className={plotCSS.historyContainer}>
-                  <div className={plotCSS.historyPhoto}></div>
-                  <div className={plotCSS.historyText}>
-                    <div className={plotCSS.historyTitle}>Destination</div>
-                    <div className={plotCSS.historySubTitle}>
-                      Parking location
-                    </div>
-                  </div>
-                  <div className={plotCSS.historyIcon}>
-                    <i className="fa-solid fa-location-dot fa-lg"></i>
-                  </div>
-                </div>
-
-                {/* History item */}
-                <div className={plotCSS.historyContainer}>
-                  <div className={plotCSS.historyPhoto}></div>
-                  <div className={plotCSS.historyText}>
-                    <div className={plotCSS.historyTitle}>Destination</div>
-                    <div className={plotCSS.historySubTitle}>
-                      Parking location
-                    </div>
-                  </div>
-                  <div className={plotCSS.historyIcon}>
-                    <i className="fa-solid fa-location-dot fa-lg"></i>
-                  </div>
-                </div>
-                {/* History item */}
-                <div className={plotCSS.historyContainer}>
-                  <div className={plotCSS.historyPhoto}></div>
-                  <div className={plotCSS.historyText}>
-                    <div className={plotCSS.historyTitle}>Destination</div>
-                    <div className={plotCSS.historySubTitle}>
-                      Parking location
-                    </div>
-                  </div>
-                  <div className={plotCSS.historyIcon}>
-                    <i className="fa-solid fa-location-dot fa-lg"></i>
-                  </div>
-                </div>
-                {/* History item */}
-                <div className={plotCSS.historyContainer}>
-                  <div className={plotCSS.historyPhoto}></div>
-                  <div className={plotCSS.historyText}>
-                    <div className={plotCSS.historyTitle}>Destination</div>
-                    <div className={plotCSS.historySubTitle}>
-                      Parking location
-                    </div>
-                  </div>
-                  <div className={plotCSS.historyIcon}>
-                    <i className="fa-solid fa-location-dot fa-lg"></i>
-                  </div>
-                </div>
-                {/* History item */}
-                <div className={plotCSS.historyContainer}>
-                  <div className={plotCSS.historyPhoto}></div>
-                  <div className={plotCSS.historyText}>
-                    <div className={plotCSS.historyTitle}>Destination</div>
-                    <div className={plotCSS.historySubTitle}>
-                      Parking location
-                    </div>
-                  </div>
-                  <div className={plotCSS.historyIcon}>
-                    <i className="fa-solid fa-location-dot fa-lg"></i>
-                  </div>
-                </div>
-                {/* History item */}
-                <div className={plotCSS.historyContainer}>
-                  <div className={plotCSS.historyPhoto}></div>
-                  <div className={plotCSS.historyText}>
-                    <div className={plotCSS.historyTitle}>Destination</div>
-                    <div className={plotCSS.historySubTitle}>
-                      Parking location
-                    </div>
-                  </div>
-                  <div className={plotCSS.historyIcon}>
-                    <i className="fa-solid fa-location-dot fa-lg"></i>
-                  </div>
-                </div>
+                {
+                  bookings !== null &&
+                  bookings.map( booking => {
+                    return (<div key={booking._id} className={plotCSS.historyContainer}>
+                      <div className={plotCSS.historyPhoto}></div>
+                      <div className={plotCSS.historyText}>
+                        <div className={plotCSS.historyTitle}>Destination: {booking.destination}</div>
+                        <div className={plotCSS.historySubTitle}>
+                          Parking location: {booking.parking_location}
+                        </div>
+                        <div className={plotCSS.historySubTitle}>
+                          Durationg: {booking.duration} hours at ₹ {booking.total_price}
+                        </div>
+                      </div>
+                      <div className={plotCSS.historyIcon}>
+                        <i className="fa-solid fa-location-dot fa-lg"></i>
+                      </div>
+                    </div>)
+                  })
+                }
               </div>
             </div>
           </div>

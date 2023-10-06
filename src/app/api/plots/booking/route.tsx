@@ -21,3 +21,34 @@ export async function POST(request: Request){
     return NextResponse.json(status);
     
 }
+
+
+export async function GET(request: Request){
+    let params = new URL(request.url).searchParams as URLSearchParams;
+
+
+  if (params.get("userId") === null && params.get("userType") === 'po') {
+    return NextResponse.json({
+      status: "failed",
+      message: "Query string `userId` is required in the body.",
+    });
+  }
+
+  // fetching data
+  let data = await mongoClient.collection("bookings").find({
+    user_id: params.get("userId"),
+  });
+
+  let dataList: Object[] = [];
+
+  for await (const doc of data) {
+    dataList.push(doc);
+  }
+
+
+  // returning data
+  return NextResponse.json({
+    status: "ok",
+    data: dataList,
+  });
+}
