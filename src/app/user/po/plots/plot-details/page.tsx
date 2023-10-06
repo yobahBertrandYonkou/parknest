@@ -79,9 +79,15 @@ export default function PlotDetails() {
                   timeOfArrival as unknown as string
                 );
 
+                // creating amount form data to be sent for order creating
+                let amountData: FormData = new FormData();
+                amountData.append('amount', formData.get('total_price') as string);
+
                 // creating order
                 fetch("/api/plots/booking/create-order", {
                   method: "POST",
+                  body: amountData
+
                 })
                   .then((response) => response.json())
                   .then((response) => {
