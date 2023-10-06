@@ -17,6 +17,7 @@ export default function PlotDetails() {
   let [parkingDuration, setParkingDuration] = useState(1);
   let [numberOfSlots, setNumberOfSlots] = useState(1);
   let [destination, setDestination] = useState<Object | null>(null);
+  let [paymentInProgress, setPaymentInProgress] = useState<boolean>(false);
   const [Razorpay] = useRazorpay();
 
   useEffect(() => {
@@ -83,6 +84,7 @@ export default function PlotDetails() {
                 let amountData: FormData = new FormData();
                 amountData.append('amount', formData.get('total_price') as string);
 
+                setPaymentInProgress(true);
                 // creating order
                 fetch("/api/plots/booking/create-order", {
                   method: "POST",
@@ -123,6 +125,8 @@ export default function PlotDetails() {
                           .then((response) => response.json())
                           .then((response) => {
                             console.log(response);
+                            // navigating to plots page
+                            window.location.replace('/user/co/plots');
                           })
                           .catch((error) => console.log(error));
                       },
@@ -233,6 +237,8 @@ export default function PlotDetails() {
                         type="submit"
                         className={checkoutCSS.pay}
                         value={"Pay"}
+
+                        disabled = {paymentInProgress}
                       />
                     </div>
                   </div>
