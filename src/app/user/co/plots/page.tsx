@@ -219,12 +219,16 @@ export default function COPlotsPage() {
                       <div className={plotCSS.historyContainer}>
                       <div className={plotCSS.historyPhoto}></div>
                       <div className={plotCSS.historyText}>
-                        <div className={plotCSS.historyTitle}>Destination: {booking.destination.full_address}</div>
-                        <div className={plotCSS.historySubTitle}>
-                          Parking location: {booking.parking_location.full_address}
+                        <div className={plotCSS.historyTitle}>
+                          Parking: {booking.parking_location.full_address}
                         </div>
+                        <hr style={{margin: '5px'}} />
                         <div className={plotCSS.historySubTitle}>
-                          Durationg: {booking.duration} hours at ₹ {booking.total_price}
+                          Destination: {booking.destination.full_address}
+                        </div>
+                        <hr style={{margin: '5px'}} />
+                        <div className={`${plotCSS.historySubTitle}`}>
+                          Duration: {booking.duration} hours at ₹ {booking.total_price}
                         </div>
                       </div>
                     </div>
