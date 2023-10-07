@@ -76,6 +76,7 @@ export default function PlotDetails() {
                 formData.append('plotId', data?._id);
                 formData.append('destination', JSON.stringify(destination));
                 formData.append('parking_location', JSON.stringify(data.plot_location));
+                formData.append('plotOwnerId', data?.user_id);
                 formData.append('total_price', (parkingDuration * numberOfSlots * parseFloat(data.price)) as unknown as string);
                 formData.append(
                   "time_of_arrival",

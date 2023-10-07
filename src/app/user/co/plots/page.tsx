@@ -228,7 +228,7 @@ export default function COPlotsPage() {
                         </div>
                         <hr style={{margin: '5px'}} />
                         <div className={`${plotCSS.historySubTitle}`}>
-                          Duration: {booking.duration} hours at ₹ {booking.total_price}
+                          {booking.duration} {booking.duration == 1 ? 'hour' : 'hours'} at ₹ {booking.total_price}
                         </div>
                       </div>
                     </div>
