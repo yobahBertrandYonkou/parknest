@@ -74,11 +74,11 @@ export default function POBookingsPage() {
               return { 
                 dateTime: new Date(parseInt(booking.timestamp)).toDateString(),
                 plot: booking.parking_location.name,
-                customer: "booking.customer_name",
+                customer: booking.customer,
                 duration: booking.duration == 1 ? `${booking.duration} hour` : `${booking.duration} hours`,
                 slots: booking.number_of_spots == 1 ? `${booking.number_of_spots} hour` : `${booking.number_of_spots} hours`,
                 totalPrice: `Rs. ${booking.total_price}`,
-                status: "booking.status"
+                status: booking.status
               };
             })}
 

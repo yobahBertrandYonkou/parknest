@@ -16,7 +16,9 @@ export async function POST(request: Request){
         destination: JSON.parse(formData.get('destination') as string),
         parking_location: JSON.parse(formData.get('parking_location') as string),
         total_price: parseFloat(formData.get('total_price') as string),
-        plotOwnerId: formData.get('plotOwnerId') as string
+        plotOwnerId: formData.get('plotOwnerId') as string,
+        customer: formData.get('customer') as string,
+        status: 'unoccupied'
     });
     
     console.log();
