@@ -1,9 +1,12 @@
 'use client';
 
+import { useEffect, useState } from "react";
 import bookingCSS from "./bookings.module.css";
 import DataTable, { createTheme } from "react-data-table-component";
 
 export default function POBookingsPage() {
+  const [data, setData] = useState<Object[] | null>(null);
+
   // Making table theme
   createTheme('parknest', {
     text: {
@@ -11,7 +14,28 @@ export default function POBookingsPage() {
       secondary: "#F8F0FF",
     },
     
-  })
+  });
+
+  useEffect(() => {
+    // Fetching plots
+    fetch(
+      ("/api/plots/booking?plotOwnerId=" +
+        JSON.parse(localStorage.getItem("useParknestStore") as string)[
+          "userId"
+        ]) as string,
+      {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      }
+    )
+      .then((response) => response.json())
+      .then(async (response) => {
+        console.log(response);
+        // setting data
+        setData(response.data);
+      })
+      .catch((error) => console.log(error));
+  }, []);
 
   return (
     <>
@@ -30,14 +54,6 @@ export default function POBookingsPage() {
               placeholder="Search"
             />
           </div>
-          <div className={bookingCSS.actions}>
-            <div className={bookingCSS.filterBtn}>
-              <i className="fa-solid fa-plus"></i> Name
-            </div>
-            <div className={bookingCSS.filterBtn}>
-              <i className="fa-solid fa-plus"></i> Status
-            </div>
-          </div>
         </div>
         {/* Top bar ends */}
 
@@ -54,43 +70,17 @@ export default function POBookingsPage() {
               { name: 'Status', selector: row => row.status, sortable: true }
             ]}
 
-            data={[
-              { 
-                dateTime: new Date().toDateString(),
-                plot: 'Plot Name',
-                customer: 'Mark test',
-                duration: '4 hours',
-                slots: '4 slots',
-                totalPrice: 'Rs. 500',
-                status: 'Occupied'
-              },
-              { 
-                dateTime: new Date().toDateString(),
-                plot: 'Plot Name',
-                customer: 'Mark test',
-                duration: '4 hours',
-                slots: '4 slots',
-                totalPrice: 'Rs. 500',
-                status: 'Occupied'
-              },{ 
-                dateTime: new Date().toDateString(),
-                plot: 'Plot Name',
-                customer: 'Mark test',
-                duration: '4 hours',
-                slots: '4 slots',
-                totalPrice: 'Rs. 500',
-                status: 'Occupied'
-              },
-              { 
-                dateTime: new Date().toDateString(),
-                plot: 'Plot Name',
-                customer: 'Mark test',
-                duration: '4 hours',
-                slots: '4 slots',
-                totalPrice: 'Rs. 500',
-                status: 'Occupied'
-              }
-            ]}
+            data={data?.map( booking => {
+              return { 
+                dateTime: new Date(parseInt(booking.timestamp)).toDateString(),
+                plot: booking.parking_location.name,
+                customer: "booking.customer_name",
+                duration: booking.duration == 1 ? `${booking.duration} hour` : `${booking.duration} hours`,
+                slots: booking.number_of_spots == 1 ? `${booking.number_of_spots} hour` : `${booking.number_of_spots} hours`,
+                totalPrice: `Rs. ${booking.total_price}`,
+                status: "booking.status"
+              };
+            })}
 
             theme="parknest"
             

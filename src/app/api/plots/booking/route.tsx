@@ -30,7 +30,7 @@ export async function GET(request: Request){
     let params = new URL(request.url).searchParams as URLSearchParams;
 
 
-  if (params.get("userId") === null && params.get("userType") === 'po') {
+  if (params.get("userId") === null && params.get("plotOwnerId") === null) {
     return NextResponse.json({
       status: "failed",
       message: "Query string `userId` is required in the body.",
@@ -38,7 +38,9 @@ export async function GET(request: Request){
   }
 
   // fetching data
-  let data = await mongoClient.collection("bookings").find({
+  let data = await mongoClient.collection("bookings").find(params.get("plotOwnerId") !== null ? {
+    plotOwnerId: params.get("plotOwnerId")
+  } : {
     user_id: params.get("userId"),
   });
 
