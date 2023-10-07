@@ -6,6 +6,7 @@ import DataTable, { createTheme } from "react-data-table-component";
 
 export default function POBookingsPage() {
   const [data, setData] = useState<Object[] | null>(null);
+  const [originalData, setOriginalData] = useState<Object[] | null>(null);
 
   // Making table theme
   createTheme('parknest', {
@@ -33,6 +34,7 @@ export default function POBookingsPage() {
         console.log(response);
         // setting data
         setData(response.data);
+        setOriginalData(response.data);
       })
       .catch((error) => console.log(error));
   }, []);
@@ -51,7 +53,17 @@ export default function POBookingsPage() {
             <input
               className={bookingCSS.search}
               type="search"
-              placeholder="Search"
+              placeholder="Search plot name..."
+              onChange={(event) => {
+                console.log(event.target.value.trim());
+                let query = event.target.value.trim().toLowerCase();
+                
+                if (query === ""){
+                  setData(originalData);
+                }else{
+                  setData(originalData?.filter( booking => (booking.parking_location.name as string).toLowerCase().includes(query.toLowerCase())) as Object[]);
+                }
+              }}
             />
           </div>
         </div>
