@@ -103,10 +103,23 @@ export default function POPlotsPage() {
         {/* Top bar ends */}
       </div>
 
+
+      {
+        data.length === 0 &&
+        <div className="container-fluid">
+          <div className="row">
+            <div style={{textAlign: "center", padding: '20px', borderRadius: "0.4em", marginTop: '100px'}} className="col-12">
+              No plots
+            </div>
+          </div>
+        </div>
+      }
+
       {/* Cards section */}
       <div className="container-fluid">
         <div className="row">
           {/* Plot card */}
+          
           {data !== null &&
             data.map((plot) => {
               return (

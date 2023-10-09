@@ -211,6 +211,17 @@ export default function COPlotsPage() {
 
               {/* History list */}
               <div className={plotCSS.historyContent}>
+
+              {
+                  bookings?.length === 0 &&
+                  <div className="container-fluid">
+                    <div className="row">
+                      <div style={{textAlign: "center", padding: '20px', borderRadius: "0.4em", marginTop: '100px'}} className="col-12">
+                        No bookings
+                      </div>
+                    </div>
+                  </div>
+                }
                 {/* History item */}
                 {
                   bookings !== null &&
@@ -238,6 +249,17 @@ export default function COPlotsPage() {
               </div>
             </div>
           </div>
+
+          {
+            data?.length === 0 &&
+            <div className="container-fluid">
+              <div className="row">
+                <div style={{textAlign: "center", padding: '20px', borderRadius: "0.4em", marginTop: '100px'}} className="col-12">
+                  No plots
+                </div>
+              </div>
+            </div>
+          }
 
           <div className={`${plotCSS.plotCSS} col-12 container-fluid`}>
             <div className="row">
