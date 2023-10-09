@@ -22,10 +22,12 @@ export default function POProfilePage() {
     currentPage: "",
   });
   const[successMessage, setSuccessMessage] = useState<boolean>(false);
+  const[editRequired, setEditRequired] = useState<boolean>(false);
 
 
 
   useEffect(() => {
+    
     // Fetching data from local store
     setLocalStore(
       JSON.parse(window.localStorage.getItem("useParknestStore") ?? "")
@@ -64,6 +66,29 @@ export default function POProfilePage() {
     <>
       <div className="container-fluid">
         <div className="row">
+        {editRequired && (
+        <div className="container-fluid">
+          <div className="row">
+            <div className="col-12">
+              <div
+                className="alert alert-success alert-dismissible fade show"
+                role="alert"
+              >
+                <strong>
+                  Profile updated successfully!
+                </strong>{" "}
+                <button
+                  type="button"
+                  className="btn-close"
+                  data-bs-dismiss="alert"
+                  aria-label="Close"
+                  onClick={() => {setSuccessMessage(false)}}
+                ></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
         {successMessage && (
         <div className="container-fluid">
           <div className="row">

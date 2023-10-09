@@ -60,6 +60,21 @@ const [isLoggedIn, setIsLoggedIn] = useState(true);
           .then((response) => response.json())
           .then((response) => {
             console.log(response);
+
+            // Checking whether user profile contains data
+            if(!window.location.search.includes("?edit=required")){
+              let data = response.data;
+            
+            if (
+              Object.keys(data.account_details).includes("") ||
+              Object.keys(data.identity).includes("") ||
+              data.first_name === "" || data.last_name === ""
+            ){
+              // redirect to profile page with query and edit=required
+              window.location.replace(`/user/${data.userType}/profile?edit=required`);
+            }
+            }
+            
             
           })
           .catch((error) => console.log(error));
