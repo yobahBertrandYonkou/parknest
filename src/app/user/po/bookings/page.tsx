@@ -55,7 +55,6 @@ export default function POBookingsPage() {
               type="search"
               placeholder="Search plot name..."
               onChange={(event) => {
-                console.log(event.target.value.trim());
                 let query = event.target.value.trim().toLowerCase();
                 
                 if (query === ""){

@@ -41,11 +41,14 @@ export async function POST(request: Request) {
           .insertOne({
             ...body,
             password: hash,
-            firstName: null,
-            lastName: null,
-            phone: null,
-            paymentDetails: null,
-            identity: null
+            first_name: "",
+            last_name: "",
+            phone: "",
+            account_details: { account_name: "", account_number: "" },
+            identity: {
+              type: "",
+              photo: ""
+            }
           });
         return NextResponse.json({ ...response, status: "success" });
       }

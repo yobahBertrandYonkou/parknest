@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import mongoClient from "../../database/mongodb";
 import { ObjectId } from "mongodb";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { storage } from "@/app/database/firebase";
 
 export async function POST(request: Request) {
   // retrieving user data
@@ -36,4 +38,39 @@ export async function POST(request: Request) {
 
     
   }
+}
+
+export async function PUT(request: Request){
+  let formData = await request.formData();
+
+  console.log(formData);
+
+  // Uploading file to firebase storage
+  let uploadStatus = await uploadBytes(
+    ref(storage, `/users/${(formData.get('userId') as string) + (formData.get('identity_file') as File).name}`), 
+    await (formData.get('identity_file') as Blob).arrayBuffer()
+  );  
+  
+  // updating data
+  let status = await mongoClient.collection('users').updateOne(
+    { _id: new ObjectId(formData.get('userId') as string) },
+    {
+       $set: {
+        first_name: formData.get('first_name'),
+        last_name: formData.get('last_name'),
+        phone: formData.get('phone'),
+        account_details: {
+          account_number: formData.get('account_number'),
+          account_name: formData.get('account_name')
+        },
+        identity: {
+          type: formData.get('identity_type'),
+          photo: await getDownloadURL(uploadStatus.ref)
+        }
+
+       }
+    }
+  );
+
+  return NextResponse.json(status);
 }
