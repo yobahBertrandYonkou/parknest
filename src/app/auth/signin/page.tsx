@@ -47,8 +47,8 @@ export default function SignInPage() {
                 "Content-Type": "application/json",
               },
               body: JSON.stringify({
-                email: email,
-                password: password,
+                email: email.trim(),
+                password: password.trim(),
                 userType: store.userType,
                 method: 'signin'
               }),

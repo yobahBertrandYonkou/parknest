@@ -56,12 +56,12 @@ export async function PUT(request: Request){
     { _id: new ObjectId(formData.get('userId') as string) },
     {
        $set: {
-        first_name: formData.get('first_name'),
-        last_name: formData.get('last_name'),
-        phone: formData.get('phone'),
+        first_name: formData.get('first_name')?.toString().trim(),
+        last_name: formData.get('last_name')?.toString().trim(),
+        phone: parseInt(formData.get('phone') as string),
         account_details: {
-          account_number: formData.get('account_number'),
-          account_name: formData.get('account_name')
+          account_number: formData.get('account_number')?.toString().trim(),
+          account_name: formData.get('account_name')?.toString().trim()
         },
         identity: {
           type: formData.get('identity_type'),

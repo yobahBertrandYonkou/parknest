@@ -83,11 +83,11 @@ export async function POST(request: Request) {
   // saving data to mongodb
   let status = await mongoClient.collection("plots").insertOne({
     _id: plotId,
-    plot_name: formData.get("name"),
+    plot_name: formData.get("name")?.toString().trim(),
     price: formData.get("price"),
     plot_location: JSON.parse(formData.get("location") as string),
-    description: formData.get("description"),
-    capacity: formData.get("capacity"),
+    description: formData.get("description")?.toString().trim(),
+    capacity: parseInt(formData.get("capacity") as string),
     photos: photoUrls ?? [],
     user_id: formData.get("userId"),
   });
@@ -184,11 +184,11 @@ export async function PUT(request: Request) {
     { _id: plotId },
     {
       $set: {
-        plot_name: formData.get("name"),
-        price: formData.get("price"),
+        plot_name: formData.get("name")?.toString().trim(),
+        price: parseFloat(formData.get("price") as string),
         plot_location: JSON.parse(formData.get("location") as string),
-        description: formData.get("description"),
-        capacity: formData.get("capacity"),
+        description: formData.get("description")?.toString().trim(),
+        capacity: parseInt(formData.get("capacity") as string),
         photos: [
           ...(photoUrls ?? []),
           ...(JSON.parse(formData.get("photoUrls") as string) as unknown as string[]),
