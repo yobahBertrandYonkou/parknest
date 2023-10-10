@@ -22,22 +22,6 @@
     padding-left: 60px;
 }
 
-.filterBtn{
-    border: 1px solid var(--secondary-color);
-    color: var(--secondary-color);
-    width: 115px;
-    border-radius: 50px;
-    padding: 7px;
-    text-align: center;
-    font-size: 14px;
-    margin-left: 10px;
-}
-
-.filterBtn:hover{
-    cursor: pointer;
-    background-color: var(--primary-color);
-}
-
 
 .searchContainer{
     position: relative;

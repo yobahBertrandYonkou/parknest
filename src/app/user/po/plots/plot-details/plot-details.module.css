@@ -26,6 +26,17 @@
     cursor: pointer;
 }
 
+.bookBtn:hover{
+    cursor: pointer;
+    box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.07);
+    user-select: none;
+}
+
+.bookBtn:active{
+    box-shadow: none;
+}
+
+
 /* Plot details */
 .plotDetails{
     display: flex;
