@@ -15,9 +15,9 @@ export default function COPlotsPage() {
   const [zoom, setZoom] = useState(11);
   const [markerObj, setMarker] = useState<mapboxgl.Marker[]>([]);
   const [mapObj, setMap] = useState<mapboxgl.Map | null>();
-  const [data, setData] = useState<Array<Object[]> | null>(null);
+  const [data, setData] = useState<Object[] | null>(null);
   const [locationObj, setLocationObj] = useState<Object | null>(null);
-  const [originalData, setOriginalData] = useState<Array<Object[]> | null>(null);
+  const [originalData, setOriginalData] = useState<Object[] | null>(null);
   const [bookings, setBookings] = useState<Array<Object[]> | null>(null);
 
   // Adds ellipse to end of text
@@ -167,11 +167,11 @@ export default function COPlotsPage() {
                     });
 
                     // updating data
-                    plotsWithinRadius.forEach( id => {
-                      return originalData[id as keyof Object];
-                    });
+                    setData(plotsWithinRadius.map( id => {
+                      return originalData?.filter(plot => plot._id === id)[0];
+                    }) as Object[]);
 
-                    console.log(distances);
+                    console.log("Within radius");
                     console.log(plotsWithinRadius);
                     
                   }}
