@@ -42,6 +42,7 @@ export async function POST(request: Request) {
             ...body,
             password: hash,
             first_name: "",
+            method: 'email',
             last_name: "",
             phone: "",
             account_details: { account_name: "", account_number: "" },

@@ -3,6 +3,7 @@
 import { useParknestStore } from "@/stores/mainStore";
 import signCSS from "../sign.module.css";
 import { useEffect, useState } from "react";
+import { signIn } from "next-auth/react";
 
 export default function SignUpPage() {
   // Park nest store
@@ -90,7 +91,10 @@ export default function SignUpPage() {
       {/* Sign in with google */}
       <div
         className={signCSS.google}
-        onClick={() => store.updateMethod("google")}
+        onClick={() => {
+          store.updateMethod("google");
+          signIn();
+        }}
       >
         Sign up with Google
       </div>

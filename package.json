@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@mapbox/search-js-react": "^1.0.0-beta.17",
+    "@react-oauth/google": "^0.11.1",
     "@types/node": "20.4.9",
     "@types/react": "18.2.20",
     "@types/react-dom": "18.2.7",
@@ -21,6 +22,7 @@
     "mapbox-gl": "^2.15.0",
     "mongodb": "^6.0.0",
     "next": "^13.5.4",
+    "next-auth": "^4.23.2",
     "razorpay": "^2.9.2",
     "react-chartjs-2": "^5.2.0",
     "react-data-table-component": "^7.5.3",
