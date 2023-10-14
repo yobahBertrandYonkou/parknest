@@ -28,7 +28,11 @@ export default function PODashboardPage() {
                 <div className={dashboardCSS.graphCardTitle}>Total Income per plot</div>
 
                 {/* Line chart */}
-                { LineChart() }
+                { data === undefined ? "" : BarChart((data['incomePerPlot' as keyof Object] as unknown as Object[]).map( element => {
+                  return element._id as string
+                }) as string[], (data['incomePerPlot' as keyof Object] as unknown as Object[]).map( element => {
+                  return element.totalIncome as number
+                }) as number[]) }
 
               </div>
             </div>
@@ -40,7 +44,11 @@ export default function PODashboardPage() {
                 <div className={dashboardCSS.graphCardTitle}>Number of booking per plot</div>
 
                 {/* Line chart */}
-                { LineChart() }
+                { data === undefined ? "" : BarChart((data['numberOfBookingsPerPlot' as keyof Object] as unknown as Object[]).map( element => {
+                  return element._id as string
+                }) as string[], (data['numberOfBookingsPerPlot' as keyof Object] as unknown as Object[]).map( element => {
+                  return element.count as number
+                }) as number[]) }
 
               </div>
             </div>
@@ -78,7 +86,7 @@ export default function PODashboardPage() {
               id={dashboardCSS.bookings}
               className={`${dashboardCSS.graphCard} ${dashboardCSS.leftCard}`}
             >
-              <div className={dashboardCSS.cardValue}>{ data === undefined ? "000" : (data.totalBookings.toString()).padStart(4, "0") }</div>
+              <div className={dashboardCSS.cardValue}>{ data === undefined ? "0000" : (data.totalBookings.toString()).padStart(4, "0") }</div>
               <div className={dashboardCSS.cardSubtext}>Total Bookings</div>
             </div>
 

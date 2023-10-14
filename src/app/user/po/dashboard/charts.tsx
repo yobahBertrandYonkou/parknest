@@ -59,32 +59,18 @@ function LineChart() {
   );
 }
 
-function BarChart() {
+function BarChart(labels: string[], data: number[], moreThanOne: boolean = false) {
   return (
     <>
       <Bar
         data={{
-          labels: [
-            "Monday",
-            "Tuesday",
-            "Wednesday",
-            "Thursday",
-            "Friday",
-            "Saturday",
-            "Sunday",
-          ],
+          labels: labels,
           datasets: [
             {
-              label: "Test data 1",
-              data: [32, 12, 45, 53, 12, 64, 67],
+              label: "Total income",
+              data: data,
               backgroundColor: "#A6CEE3",
               borderColor: "#A6CEE3",
-            },
-            {
-              label: "Test data 2",
-              data: [5, 8, 99, 11, 2, 33, 64],
-              backgroundColor: "#d7cbf2",
-              borderColor: "#d7cbf2",
             }
           ],
         }}
