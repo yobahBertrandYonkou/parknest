@@ -29,7 +29,7 @@ export default function PODashboardPage() {
 
                 {/* Line chart */}
                 { data === undefined ? "" : BarChart((data['incomePerPlot' as keyof Object] as unknown as Object[]).map( element => {
-                  return element._id as string
+                  return element.metadata[0].name as string
                 }) as string[], (data['incomePerPlot' as keyof Object] as unknown as Object[]).map( element => {
                   return element.totalIncome as number
                 }) as number[]) }
@@ -45,7 +45,7 @@ export default function PODashboardPage() {
 
                 {/* Line chart */}
                 { data === undefined ? "" : BarChart((data['numberOfBookingsPerPlot' as keyof Object] as unknown as Object[]).map( element => {
-                  return element._id as string
+                  return element.metadata[0].name as string
                 }) as string[], (data['numberOfBookingsPerPlot' as keyof Object] as unknown as Object[]).map( element => {
                   return element.count as number
                 }) as number[]) }

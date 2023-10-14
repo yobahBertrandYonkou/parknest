@@ -10,7 +10,10 @@ export async function GET(request: Request){
             $match: { "plotOwnerId": params.get('userId') }
         }, 
         { 
-            $group: { "_id": "$plotOwnerId", "totalIncome": { $sum: "$total_price" } }
+            $group: { 
+                "_id": "$plotOwnerId", 
+                "totalIncome": { $sum: "$total_price" }
+            }
         }
     ]);
 
@@ -26,7 +29,11 @@ export async function GET(request: Request){
             $match: { "plotOwnerId": params.get('userId') }
         }, 
         { 
-            $group: { "_id": "$plot_id", "totalIncome": { $sum: "$total_price" } }
+            $group: { 
+                "_id": "$plot_id", 
+                "totalIncome": { $sum: "$total_price" },
+                "metadata": { $addToSet: { name: "$destination.name" }}
+            }
         }
     ]);
 
@@ -36,7 +43,11 @@ export async function GET(request: Request){
             $match: { "plotOwnerId": params.get('userId') }
         }, 
         { 
-            $group: { "_id": "$plot_id", "count": { $sum: 1 } }
+            $group: { 
+                "_id": "$plot_id", 
+                "count": { $sum: 1 },
+                "metadata": { $addToSet: { name: "$destination.name" }}
+            }
         }
     ]);
 
