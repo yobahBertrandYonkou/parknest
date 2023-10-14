@@ -34,6 +34,9 @@ export async function GET(request: Request){
                 "totalIncome": { $sum: "$total_price" },
                 "metadata": { $addToSet: { name: "$destination.name" }}
             }
+        },
+        {
+            $sort: { name: -1 }
         }
     ]);
 
@@ -48,6 +51,9 @@ export async function GET(request: Request){
                 "count": { $sum: 1 },
                 "metadata": { $addToSet: { name: "$destination.name" }}
             }
+        },
+        {
+            $sort: { name: -1 }
         }
     ]);
 
