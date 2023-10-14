@@ -43,11 +43,11 @@ export async function GET(request: Request){
     return NextResponse.json({
         status: 'ok',
         data: {
-            totalIncome: totalIncome,
+            totalIncome: (await totalIncome.toArray())[0].totalIncome,
             totalBookings: totalBookings,
-            incomePerPlot: incomePerPlot,
+            incomePerPlot: await incomePerPlot.toArray(),
             totalPlots: totalPlots,
-            numberOfBookingsPerPlot: numberOfBookingsPerPlot
+            numberOfBookingsPerPlot: await numberOfBookingsPerPlot.toArray()
         }
     });
 }

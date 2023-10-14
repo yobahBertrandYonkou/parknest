@@ -1,8 +1,21 @@
 "use client"
 import dashboardCSS from "./dashboard.module.css";
 import { BarChart, LineChart } from "./charts";
+import { useEffect, useState } from "react";
 
 export default function PODashboardPage() {
+  const [data, setData] = useState<Object>();
+
+  useEffect(() => {
+    fetch('/api/stats?userId=' + JSON.parse(localStorage.getItem("useParknestStore") as string)["userId"])
+    .then(response => response.json())
+    .then(response => {
+      console.log(response.data);
+      setData(response.data);
+      
+    })
+    .catch(error => console.log(error));
+  }, []);
   return (
     <>
       <div className="container-fluid">
@@ -51,21 +64,21 @@ export default function PODashboardPage() {
               id={dashboardCSS.income}
               className={`${dashboardCSS.graphCard} ${dashboardCSS.leftCard}`}
             >
-              <div className={dashboardCSS.cardValue}>₹1000</div>
+              <div className={dashboardCSS.cardValue}>₹{ data === undefined ? "0000" : (data.totalIncome.toString()).padStart(4, "0") }</div>
               <div className={dashboardCSS.cardSubtext}>Total income</div>
             </div>
             <div
               id={dashboardCSS.plots}
               className={`${dashboardCSS.graphCard} ${dashboardCSS.leftCard}`}
             >
-              <div className={dashboardCSS.cardValue}>₹1000</div>
+              <div className={dashboardCSS.cardValue}>{ data === undefined ? "0000" : (data.totalPlots.toString()).padStart(4, "0") }</div>
               <div className={dashboardCSS.cardSubtext}>Total plots</div>
             </div>
             <div
               id={dashboardCSS.bookings}
               className={`${dashboardCSS.graphCard} ${dashboardCSS.leftCard}`}
             >
-              <div className={dashboardCSS.cardValue}>₹1000</div>
+              <div className={dashboardCSS.cardValue}>{ data === undefined ? "000" : (data.totalBookings.toString()).padStart(4, "0") }</div>
               <div className={dashboardCSS.cardSubtext}>Total Bookings</div>
             </div>
 
