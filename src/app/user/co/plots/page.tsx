@@ -252,14 +252,14 @@ export default function COPlotsPage() {
 
           {
             data?.length === 0 &&
-            <div className="container-fluid">
-              <div className="row">
-                <div style={{textAlign: "center", padding: '20px', borderRadius: "0.4em", marginTop: '100px'}} className="col-12">
-                  No plots
-                </div>
-              </div>
+            <div className={plotCSS.mainContainer}>
+            {/* Top bar */}
+            <div style={{ justifyContent: 'center', padding: '20px', marginTop: '10px'}} className={`small ${plotCSS.actionBar}`}>
+              No plots found.
             </div>
-          }
+            {/* Top bar ends */}
+          </div>
+      }
 
           <div className={`${plotCSS.plotCSS} col-12 container-fluid`}>
             <div className="row">
