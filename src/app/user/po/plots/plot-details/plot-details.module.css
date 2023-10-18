@@ -1,0 +1,80 @@
+.mainContainer{
+    padding: 0 10px 0 10px;
+}
+
+.firstRow{
+    background-color: white;
+    border-radius: 0.5em;
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    font-size: 24px;
+    color: var(--primary-dashboard-color);
+    padding: 10px;
+}
+
+.bookBtn{
+    font-size: 16px;
+    width: 150px;
+    background-color: var(--primary-color);
+    text-align: center;
+    border-radius: 50px;
+    padding: 10px;
+}
+
+.bookBtn:hover{
+    cursor: pointer;
+}
+
+.bookBtn:hover{
+    cursor: pointer;
+    box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.07);
+    user-select: none;
+}
+
+.bookBtn:active{
+    box-shadow: none;
+}
+
+
+/* Plot details */
+.plotDetails{
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border-radius: 0.5em;
+    margin-top: 20px;
+    color: var(--primary-dashboard-color);
+    padding: 20px;
+}
+
+.plotName{
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.row{
+    font-size: 16px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.photoCarouselContainer{
+    background-color: #f5f5f8;
+}
+
+.images{
+    object-fit: cover;
+    height: 500px;
+}
+
+.descriptionTitle{
+    font-size: 18px;
+    font-weight: bold;
+    padding-bottom: 5px;
+}
+
+.description{
+    margin-top: 30px;
+}

@@ -1,0 +1,47 @@
+.button{
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    font-size: 14px;
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+    border-radius: 0.4em;
+    margin-bottom: 15px;
+}
+
+.button:hover, .google:hover{
+    cursor: pointer;
+    box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.07);
+    user-select: none;
+}
+
+.button:active, .google:active{
+    box-shadow: none;
+}
+
+.google{
+    background-color: white;
+    color: var(--secondary-color);
+    font-size: 14px;
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+    border-radius: 0.4em;
+    border: 1px solid #E2E6ED;
+    margin-bottom: 15px;
+}
+
+.noaccount{
+    font-size: 14px;
+    color: #7E7E7E;
+}
+
+.signup{
+    color: var(--secondary-color);
+    text-decoration: none !important;
+}
+
+/* Hover and actions */
+.signup:hover, .forgot:hover, .google:hover{
+    cursor: pointer;
+}

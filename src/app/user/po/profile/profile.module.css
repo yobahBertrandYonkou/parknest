@@ -1,0 +1,76 @@
+.profileInformation, .profileForm{
+    background-color: white;
+    border-radius: 0.5em;
+    padding: 10px;
+    color: var(--secondary-color);
+}
+
+.profileInfoTitle{
+    text-align: center;
+    font-weight: bold;
+}
+
+.infoFieldTitle{
+    color: rgba(61, 40, 87, 0.8);
+    font-weight: bold;
+}
+
+.infoFieldValue{
+    color: rgba(61, 40, 87, 0.6);
+}
+
+.divider{
+    height: 1px;
+    background-color: #F5F5F8;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.labels{
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+.actionContainer{
+    padding-top: 30px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.save{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100px;
+    padding: 10px;
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    border-radius: 50px;
+    border: none;
+}
+
+
+.save:hover{
+    cursor: pointer;
+    box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.07);
+    user-select: none;
+}
+
+.save:active{
+    box-shadow: none;
+}
+
+.idImageView{
+    height: 200px;
+    margin-top: 20px;
+    background-color: #F5F5F8;
+    border-radius: "0.4em";
+    overflow: hidden;
+}
+
+.idImage{
+    height: 200px;
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
