@@ -109,7 +109,7 @@ export default function PlotDetails() {
                       currency: "INR",
                       name: "ParkNest",
                       description: `Booking parking spot(s) at ${destination.full_address}`,
-                      image: "http://localhost:3000/images/logo.png",
+                      // image: "/images/logo.png",
                       order_id: response.id,
                       theme: {
                         color: "#F8F0FF",
