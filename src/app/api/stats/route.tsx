@@ -60,7 +60,7 @@ export async function GET(request: Request){
     return NextResponse.json({
         status: 'ok',
         data: {
-            totalIncome: (await totalIncome.toArray())[0].totalIncome,
+            totalIncome: (await totalIncome.toArray())[0] == undefined ? 0 : (await totalIncome.toArray())[0].totalIncome,
             totalBookings: totalBookings,
             incomePerPlot: await incomePerPlot.toArray(),
             totalPlots: totalPlots,
