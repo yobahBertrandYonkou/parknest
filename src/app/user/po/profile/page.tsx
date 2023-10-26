@@ -241,33 +241,30 @@ export default function POProfilePage() {
                   <input defaultValue={phone} name="phone" onChange={(event) => setPhone(event.target.value.trim())} required type="number" className="form-control" id="phone" />
                 </div>
                 {/* Form filed */}
-                <div className="col-lg-6">
-                  <label
-                    htmlFor="account-number"
-                    className={`${profileCSS.labels} form-label small`}
-                  >
-                    Account number
-                  </label>
-                  <input defaultValue={accountNumber} name="account_number" onChange={(event) => setAccountNumber(event.target.value.trim())} required
-                    type="number"
-                    className="form-control"
-                    id="account-number"
-                  />
-                </div>
-                {/* Form filed */}
-                <div className="col-lg-6">
-                  <label
-                    htmlFor="account-name"
-                    className={`${profileCSS.labels} form-label small`}
-                  >
-                    Account name
-                  </label>
-                  <input defaultValue={accountName} name="account_name" onChange={(event) => setAccountName(event.target.value.trim())} required
-                    type="text"
-                    className="form-control"
-                    id="account-name"
-                  />
-                </div>
+                {localStore.userType == 'po' && 
+                <><div className="col-lg-6">
+                    <label
+                      htmlFor="account-number"
+                      className={`${profileCSS.labels} form-label small`}
+                    >
+                      Account number
+                    </label>
+                    <input defaultValue={accountNumber} name="account_number" onChange={(event) => setAccountNumber(event.target.value.trim())} required
+                      type="number"
+                      className="form-control"
+                      id="account-number" />
+                  </div><div className="col-lg-6">
+                      <label
+                        htmlFor="account-name"
+                        className={`${profileCSS.labels} form-label small`}
+                      >
+                        Account name
+                      </label>
+                      <input defaultValue={accountName} name="account_name" onChange={(event) => setAccountName(event.target.value.trim())} required
+                        type="text"
+                        className="form-control"
+                        id="account-name" />
+                    </div></>}
 
                 {/* Form filed */}
                 <div className="col-lg-4">

@@ -60,7 +60,7 @@ export default function PODashboardPage() {
                 <div className={dashboardCSS.graphCardTitle}>Income per plot for each month</div>
 
                 {/* Bar chart */}
-                { BarChart() }
+                {/* { BarChart() } */}
               </div>
             </div>
             {/* Graph card 3 end */}
