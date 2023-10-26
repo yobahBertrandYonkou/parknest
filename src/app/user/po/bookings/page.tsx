@@ -83,7 +83,7 @@ export default function POBookingsPage() {
 
             data={data?.map( booking => {
               return { 
-                dateTime: new Date(parseInt(booking.timestamp)).toDateString(),
+                dateTime: new Date(booking.timestamp).toDateString(),
                 plot: booking.parking_location.name,
                 customer: booking.customer,
                 duration: booking.duration == 1 ? `${booking.duration} hour` : `${booking.duration} hours`,
