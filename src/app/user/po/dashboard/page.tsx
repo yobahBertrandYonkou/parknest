@@ -91,13 +91,12 @@ export default function PODashboardPage() {
             </div>
 
             {/* Notification section */}
-            <div
+            {/* <div
               className={`${dashboardCSS.graphCard} ${dashboardCSS.notificationCard}`}
             >
               <div className={dashboardCSS.graphCardTitle}>Notifications</div>
 
               <div className={dashboardCSS.notificationList}>
-                {/* Notification card */}
                 <div className={dashboardCSS.notification}>
                   <div className={dashboardCSS.notificationIcon}></div>
                   <div className={dashboardCSS.notificationText}>
@@ -109,20 +108,6 @@ export default function PODashboardPage() {
                     </div>
                   </div>
                 </div>
-                {/* Notification card */}
-                <div className={dashboardCSS.notification}>
-                  <div className={dashboardCSS.notificationIcon}></div>
-                  <div className={dashboardCSS.notificationText}>
-                    <div className={dashboardCSS.notificationTitle}>
-                      Destination
-                    </div>
-                    <div className={dashboardCSS.notificationSubtext}>
-                      Parking location
-                    </div>
-                  </div>
-                </div>
-
-                {/* Notification card */}
                 <div className={dashboardCSS.notification}>
                   <div className={dashboardCSS.notificationIcon}></div>
                   <div className={dashboardCSS.notificationText}>
@@ -135,7 +120,6 @@ export default function PODashboardPage() {
                   </div>
                 </div>
 
-                {/* Notification card */}
                 <div className={dashboardCSS.notification}>
                   <div className={dashboardCSS.notificationIcon}></div>
                   <div className={dashboardCSS.notificationText}>
@@ -148,7 +132,18 @@ export default function PODashboardPage() {
                   </div>
                 </div>
 
-                {/* Notification card */}
+                <div className={dashboardCSS.notification}>
+                  <div className={dashboardCSS.notificationIcon}></div>
+                  <div className={dashboardCSS.notificationText}>
+                    <div className={dashboardCSS.notificationTitle}>
+                      Destination
+                    </div>
+                    <div className={dashboardCSS.notificationSubtext}>
+                      Parking location
+                    </div>
+                  </div>
+                </div>
+
                 <div className={dashboardCSS.notification}>
                   <div className={dashboardCSS.notificationIcon}></div>
                   <div className={dashboardCSS.notificationText}>
@@ -161,7 +156,7 @@ export default function PODashboardPage() {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

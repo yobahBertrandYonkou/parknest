@@ -71,7 +71,7 @@ export default function PlotDetails() {
                 let formData = new FormData(event.target as HTMLFormElement);
 
                 // adding details
-                formData.append('timestamp', new Date().getTime() as unknown as string);
+                formData.append('timestamp', new Date().toString());
                 formData.append('userId', JSON.parse(localStorage.getItem("useParknestStore") as string).userId);
                 formData.append('plotId', data?._id);
                 formData.append('destination', JSON.stringify(destination));
