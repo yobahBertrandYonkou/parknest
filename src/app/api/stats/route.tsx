@@ -57,10 +57,17 @@ export async function GET(request: Request){
         }
     ]);
 
+    let income = (await totalIncome.toArray())[0];
+    if (income !== undefined){
+        income = income.totalIncome
+    }
+    
+    console.log();
+    
     return NextResponse.json({
         status: 'ok',
         data: {
-            totalIncome: (await totalIncome.toArray())[0] == undefined ? 0 : (await totalIncome.toArray())[0].totalIncome,
+            totalIncome: income,
             totalBookings: totalBookings,
             incomePerPlot: await incomePerPlot.toArray(),
             totalPlots: totalPlots,
