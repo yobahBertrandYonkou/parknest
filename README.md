@@ -1,11 +1,6 @@
-<div style = "display: flex; justify-content: center; align-items: center; background-color: black; border-radius: 10px">
-    <div>
-        <img height = 200 src='./parknest-images/parknest-logo-1.png'>
-    </div>
-    <div>
-        <img height = 200 src='./parknest-images/parknest-logo-3.png'>
-    </div>
-</div>
+<img height = 200 src='./parknest-images/parknest-logo-1.png'>
+<img height = 200 src='./parknest-images/parknest-logo-3.png'>
+
 <br>
 
 # CONTENTS
