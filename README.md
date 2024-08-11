@@ -1,4 +1,5 @@
-![Logo darkmode](./parknest-images/parknest-logo-1.png) ![Logo lightmode](./parknest-images/parknest-logo-3.png)
+<img height = 200 src='./parknest-images/parknest-logo-1.png'>
+<img height = 200 src='./parknest-images/parknest-logo-3.png'>
 
 <br>
 
