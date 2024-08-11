@@ -1,5 +1,4 @@
 <img height = 200 src='./parknest-images/parknest-logo-1.png'>
-<img height = 200 src='./parknest-images/parknest-logo-3.png'>
 
 <br>
 
