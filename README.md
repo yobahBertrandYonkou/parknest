@@ -44,8 +44,8 @@
         - [3.1 Plots - Plot Owner](#31-plots---plot-owner)
         - [3.2 Plots - Car Owner](#32-plots---car-owner)
     - [4. PAYMENT](#4-payment)
-  - [CONCLUSION](#conclusion)
-  - [BIBLIOGRAPHY](#bibliography)
+- [CONCLUSION](#conclusion)
+- [BIBLIOGRAPHY](#bibliography)
 
 ---
 
