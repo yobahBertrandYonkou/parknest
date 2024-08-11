@@ -1,0 +1,31 @@
+<mxfile host="Electron" modified="2023-09-04T03:38:06.657Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.6.8 Chrome/114.0.5735.289 Electron/25.5.0 Safari/537.36" etag="Kl_CG9bCLDkcoYRnJUEu" version="21.6.8" type="device">
+  <diagram name="Page-1" id="oZiwrv__1GzKY7QI_m-K">
+    <mxGraphModel dx="2133" dy="894" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="BoihK3S96Oc2IVYB9GhQ-17" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeWidth=2;" parent="1" vertex="1">
+          <mxGeometry x="-240" y="70" width="960" height="470" as="geometry" />
+        </mxCell>
+        <mxCell id="BoihK3S96Oc2IVYB9GhQ-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;startArrow=none;startFill=0;strokeWidth=2;" parent="1" source="BoihK3S96Oc2IVYB9GhQ-2" target="BoihK3S96Oc2IVYB9GhQ-3" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="BoihK3S96Oc2IVYB9GhQ-15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;startArrow=none;startFill=0;strokeWidth=2;" parent="1" source="BoihK3S96Oc2IVYB9GhQ-2" target="BoihK3S96Oc2IVYB9GhQ-5" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="BoihK3S96Oc2IVYB9GhQ-2" value="&lt;div&gt;Users {&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; user_id: string,&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; email: string,&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; password: hash,&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; first_name: string,&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; last_name: string,&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; phone: string,&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; payment_details: Object,&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; identity: Object&lt;/div&gt;&lt;div&gt;}&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;fillColor=none;strokeWidth=2;" parent="1" vertex="1">
+          <mxGeometry x="160" y="150" width="160" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="BoihK3S96Oc2IVYB9GhQ-3" value="Plots {&lt;br&gt;&amp;nbsp; &amp;nbsp; plot_id: string,&lt;br&gt;&lt;span class=&quot;Apple-converted-space&quot;&gt;&amp;nbsp; &amp;nbsp; &lt;/span&gt;user_id: Object,&lt;br&gt;&lt;span class=&quot;Apple-converted-space&quot;&gt;&amp;nbsp; &amp;nbsp; &lt;/span&gt;plot_name: string,&lt;br&gt;&lt;span class=&quot;Apple-converted-space&quot;&gt;&amp;nbsp; &amp;nbsp; &lt;/span&gt;description: string,&lt;br&gt;&lt;span class=&quot;Apple-converted-space&quot;&gt;&amp;nbsp; &amp;nbsp; &lt;/span&gt;plot_location: Object,&lt;br&gt;&lt;span class=&quot;Apple-converted-space&quot;&gt;&amp;nbsp; &amp;nbsp; &lt;/span&gt;photos: array,&lt;br&gt;&lt;span class=&quot;Apple-converted-space&quot;&gt;&amp;nbsp; &amp;nbsp; &lt;/span&gt;price: double,&lt;br&gt;&lt;span class=&quot;Apple-converted-space&quot;&gt;&amp;nbsp; &amp;nbsp; &lt;/span&gt;capacity: int&lt;br&gt;}" style="rounded=0;whiteSpace=wrap;html=1;align=left;fillColor=none;strokeWidth=2;" parent="1" vertex="1">
+          <mxGeometry x="510" y="360" width="170" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="BoihK3S96Oc2IVYB9GhQ-5" value="Bookings {&lt;br&gt;&amp;nbsp; &amp;nbsp; booking_id: string,&lt;br&gt;&lt;span class=&quot;Apple-converted-space&quot;&gt;&amp;nbsp; &amp;nbsp; &lt;/span&gt;plot_id: Object,&lt;br&gt;&lt;span class=&quot;Apple-converted-space&quot;&gt;&amp;nbsp; &amp;nbsp; &lt;/span&gt;user_id: Object,&lt;br&gt;&lt;span class=&quot;Apple-converted-space&quot;&gt;&amp;nbsp; &amp;nbsp; &lt;/span&gt;timestamp: Timestamp,&lt;br&gt;&lt;span class=&quot;Apple-converted-space&quot;&gt;&amp;nbsp; &amp;nbsp; &lt;/span&gt;duration: int,&lt;br&gt;&lt;span class=&quot;Apple-converted-space&quot;&gt;&amp;nbsp; &amp;nbsp; &lt;/span&gt;number_of_slots: int,&lt;br&gt;&lt;span class=&quot;Apple-converted-space&quot;&gt;&amp;nbsp; &amp;nbsp; &lt;/span&gt;total_price: double&lt;br&gt;}" style="rounded=0;whiteSpace=wrap;html=1;align=left;fillColor=none;strokeWidth=2;" parent="1" vertex="1">
+          <mxGeometry x="-200" y="360" width="170" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="BoihK3S96Oc2IVYB9GhQ-16" value="ParkNest Database Design" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1;strokeWidth=2;" parent="1" vertex="1">
+          <mxGeometry x="193" y="90" width="104" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
