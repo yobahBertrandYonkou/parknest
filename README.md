@@ -1,4 +1,4 @@
-[Logo darkmode](./parknest-images/parknest-logo-1.png) [Logo lightmode](./parknest-images/parknest-logo-3.png)
+![Logo darkmode](./parknest-images/parknest-logo-1.png) ![Logo lightmode](./parknest-images/parknest-logo-3.png)
 
 <br>
 
