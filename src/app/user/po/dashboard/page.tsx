@@ -72,7 +72,7 @@ export default function PODashboardPage() {
               id={dashboardCSS.income}
               className={`${dashboardCSS.graphCard} ${dashboardCSS.leftCard}`}
             >
-              <div className={dashboardCSS.cardValue}>₹{ data === undefined ? "0000" : data.totalIncome === undefined ? 0 : (data.totalIncome.toString() ).padStart(4, "0") }</div>
+              <div className={dashboardCSS.cardValue}>₹{ data === undefined ? "0000" : data.totalIncome === undefined ? "0000" : (data.totalIncome.toString() ).padStart(4, "0") }</div>
               <div className={dashboardCSS.cardSubtext}>Total income</div>
             </div>
             <div
