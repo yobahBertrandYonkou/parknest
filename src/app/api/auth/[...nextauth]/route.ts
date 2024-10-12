@@ -13,7 +13,7 @@ const handler = NextAuth({
             console.log(baseUrl);
             
             
-            return "/google/auth";
+            return "http://localhost:3000/google/auth";
         }
     }
 });
