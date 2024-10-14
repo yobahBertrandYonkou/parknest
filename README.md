@@ -4,8 +4,6 @@
 
 ![Home Page](./parknest-images/home-page.png)
 
-<br>
-
 # CONTENTS
 
 - [CONTENTS](#contents)
