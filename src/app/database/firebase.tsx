@@ -4,12 +4,12 @@ import { getStorage } from "firebase/storage";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyAoxME1NA3rtVk7uIh8KK8KYvmC_WDYLbI",
+  apiKey: "",
   authDomain: "parknest1.firebaseapp.com",
   projectId: "parknest1",
   storageBucket: "parknest1.appspot.com",
   messagingSenderId: "751499042743",
-  appId: "1:751499042743:web:6033d70e5a7be354d8d232",
+  appId: "",
 };
 
 // Initialize Firebase
